@@ -1,4 +1,4 @@
-# NuGex
+# NuGet Extensions
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
@@ -13,8 +13,8 @@ Initial Alpha version. Assumes packages.config and Reference includes using a Hi
 - Build a version of your NuGet packages, probably Debug with symbols included.
 - The NuGet version can be anything (`0.0.0-debug`, for example).
 - The assembly version must be `0.0.0.0` (current limitation).
-- Run `nugex link` in the output directory where the `.nupkg` files are located.
-- Run `nugex link MyProject.csproj,path/to/MyOtherProject.csproj` in a directory where `nuget install` would otherwise install the package to.
+- Run `nuget-extensions link` in the output directory where the `.nupkg` files are located.
+- Run `nuget-extensions link MyProject.csproj,path/to/MyOtherProject.csproj` in a directory where `nuget install` would otherwise install the package to.
 - Build and debug your projects.
 
 Note that you must currently re-link the projects in order to re-install the packages when there are new builds.
