@@ -1,5 +1,7 @@
 # NuGex
 
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+
 A CLI to extend the NuGet CLI with some handy features. Namely, the addition of an NPM-style link command.
 
 ### Status
