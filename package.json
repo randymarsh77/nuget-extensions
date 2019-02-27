@@ -10,8 +10,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Matthew Preucil",
+  "author": "Matt Preucil <mattpsbs@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/randymarsh77/nuget-extensions/issues"
+  },
+  "homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
   "devDependencies": {
     "prettier": "^1.16.4"
   },
