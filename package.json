@@ -3,6 +3,7 @@
   "version": "0.0.1-alpha",
   "description": "Extensions for the NuGet CLI",
   "main": "index.js",
+  "files": ["*.js"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
