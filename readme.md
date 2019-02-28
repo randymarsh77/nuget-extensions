@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
-A CLI to extend the NuGet CLI with some handy features. Namely, the addition of an NPM-style link command.
+A CLI to extend the NuGet CLI with some handy features. Namely, the addition of an NPM-style link command. Also, a feature called "build short-circuiting" that uses file watching to copy newly available dlls directly into your built product.
 
 ### Status
 
@@ -15,9 +15,10 @@ Initial Alpha version. Assumes packages.config and Reference includes using a Hi
 - The assembly version must be `0.0.0.0` (current limitation).
 - Run `nuget-extensions link` in the output directory where the `.nupkg` files are located.
 - Run `nuget-extensions link MyProject.csproj,path/to/MyOtherProject.csproj` in a directory where `nuget install` would otherwise install the package to.
+- Run `nuget-extensions watch --short-circuit-build some/output/path` in the same (^) directory where `some/output/path` is where your executable will load the dll from.
 - Build and debug your projects.
 
-Note that you must currently re-link the projects in order to re-install the packages when there are new builds.
+Note that you must currently re-link the projects in order to re-install the packages when there are new builds. This can be done automatically using `watch`.
 
 ### License
 

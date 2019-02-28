@@ -2,6 +2,7 @@
 
 const { link } = require('./linker');
 const { registerPackages, readRegistry, writeRegistry } = require('./registry');
+const { watch } = require('./watcher');
 
 require('yargs')
 	.usage('Usage: $0 <command> [options]')
@@ -27,4 +28,17 @@ require('yargs')
 	})
 	.command('list', 'List linked packages.', () => {
 		console.log(JSON.stringify(readRegistry(), null, 2));
-	}).argv;
+	})
+	.command(
+		'watch',
+		'Watch for file changes in linked package directories, automatically re-install the updated packages.',
+		yargs => {
+			yargs.option('short-circuit-build', {
+				describe:
+					'If specified, the automatically re-installed package dlls will also be copied to the specified location.',
+			});
+		},
+		argv => {
+			watch(argv);
+		}
+	).argv;
