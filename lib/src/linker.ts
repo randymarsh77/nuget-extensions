@@ -1,14 +1,16 @@
-const { execFileSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const rimraf = require('rimraf');
-const { readRegistry } = require('./registry');
-const { updateProjectFile } = require('./csproj');
+import { execFileSync } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as rimraf from 'rimraf';
+import { readRegistry, IPackage } from './registry';
+import { updateProjectFile } from './csproj';
 
-const installPackages = shortCircuitBuild => {
+type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
+
+export function installPackages(shortCircuitBuild?: string) {
 	const registry = readRegistry();
-	const packages = Object.keys(registry).reduce((acc, package) => {
-		const { name, version, assemblyVersion, directory } = registry[package];
+	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
+		const { name, version, assemblyVersion, directory } = registry[pkg];
 		const guessedPackagePath = path.join(process.cwd(), 'packages', `${name}.${version}`);
 		console.log('Guessed path:', guessedPackagePath);
 		if (fs.existsSync(guessedPackagePath)) {
@@ -37,16 +39,13 @@ const installPackages = shortCircuitBuild => {
 		return [{ name, version, assemblyVersion }, ...acc];
 	}, []);
 	return packages;
-};
+}
 
-module.exports = {
-	installPackages,
-	link: projects => {
-		const packages = installPackages();
-		projects.forEach(project => {
-			console.log('Updating: ', project);
-			updateProjectFile(project, packages);
-		});
-		console.log('Success!');
-	},
-};
+export function link(projects: string[]) {
+	const packages = installPackages();
+	projects.forEach(project => {
+		console.log('Updating: ', project);
+		updateProjectFile(project, packages);
+	});
+	console.log('Success!');
+}

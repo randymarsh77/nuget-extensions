@@ -1,0 +1,70 @@
+{
+	"name": "nuget-extensions",
+	"displayName": "NuGet Extensions",
+	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
+	"version": "0.0.3-alpha",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
+	},
+	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"engines": {
+		"vscode": "^1.31.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"main": "./out/extension.js",
+	"activationEvents": ["onCommand:extension.nugex.link"],
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.nugex.link",
+				"title": "Link to packages"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "NuGet Extensions",
+			"properties": {
+				"Nuget Extensions.defaultPackagePaths": {
+					"type": "string",
+					"default": null,
+					"description": "When registering packages as link targets, packages in these paths will be used."
+				},
+				"Nuget Extensions.defaultSolutions": {
+					"type": "string",
+					"default": null,
+					"description": "Options for packages to link to will be populated from, and apply to, these solutions."
+				},
+				"Nuget Extensions.defaultProjects": {
+					"type": "string",
+					"default": null,
+					"description": "Options for packages to link to will be populated from, and apply to, these projects."
+				},
+				"Nuget Extensions.defaultShortCircuitPaths": {
+					"type": "string",
+					"default": null,
+					"description": "Using the Watch command will automatically apply short circuiting to these paths. This should be a comma delimited list of valid paths."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"clean": "rimraf out",
+		"lint": "tslint -p ./",
+		"compile": "tsc -p ./",
+		"build": "yarn clean && yarn lint && yarn compile",
+		"vscode:prepublish": "yarn build",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "yarn build && node ./node_modules/vscode/bin/test",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"tslint": "^5.12.1",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	}
+}

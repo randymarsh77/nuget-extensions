@@ -1,0 +1,34 @@
+{
+	"name": "nuget-extensions-lib",
+	"version": "0.0.3-alpha",
+	"description": "The library that supports the nuget-extensions CLI and VSCode extension.",
+	"author": "Matt Preucil <mattpsbs@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
+	},
+	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"main": "index.js",
+	"files": [
+		"out/**/*.js"
+	],
+	"scripts": {
+		"clean": "rimraf out",
+		"lint": "tslint -p ./",
+		"compile": "tsc -p ./",
+		"build": "yarn clean && yarn lint && yarn compile",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"@types/node": "^11.10.4",
+		"prettier": "^1.16.4",
+		"tslint": "^5.13.1",
+		"typescript": "^3.3.3333"
+	},
+	"dependencies": {
+		"lodash.debounce": "^4.0.8",
+		"rimraf": "^2.6.3",
+		"user-home": "^2.0.0",
+		"yargs": "^13.2.1"
+	}
+}
