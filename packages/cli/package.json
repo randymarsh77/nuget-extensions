@@ -33,6 +33,7 @@
 		"lodash.debounce": "^4.0.8",
 		"rimraf": "^2.6.3",
 		"user-home": "^2.0.0",
-		"yargs": "^13.2.1"
+		"yargs": "^13.2.1",
+		"nuget-extensions-lib": "^0.0.3-alpha"
 	}
 }

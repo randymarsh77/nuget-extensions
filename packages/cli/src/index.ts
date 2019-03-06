@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as yargs from 'yargs';
-import { link, registerPackages, readRegistry, writeRegistry, watch } from '../../lib/src';
+import { link, registerPackages, readRegistry, writeRegistry, watch } from 'nuget-extensions-lib';
 
 const _ = yargs
 	.usage('Usage: $0 <command> [options]')

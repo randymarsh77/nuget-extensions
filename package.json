@@ -1,7 +1,11 @@
 {
-  "devDependencies": {
-    "@types/lodash.debounce": "^4.0.5",
-    "@types/rimraf": "^2.0.2",
-    "@types/user-home": "^2.0.0"
-  }
+	"private": true,
+	"name": "nuget-extensions-packages",
+	"workspaces": ["packages/*"],
+	"devDependencies": {
+		"@types/lodash.debounce": "^4.0.5",
+		"@types/rimraf": "^2.0.2",
+		"@types/user-home": "^2.0.0",
+		"lerna": "^3.13.1"
+	}
 }
