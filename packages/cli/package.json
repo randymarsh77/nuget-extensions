@@ -22,18 +22,11 @@
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
 	},
 	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
-	"devDependencies": {
-		"@types/node": "^11.10.4",
-		"@types/yargs": "^12.0.9",
-		"prettier": "^1.16.4",
-		"tslint": "^5.13.1",
-		"typescript": "^3.3.3333"
-	},
 	"dependencies": {
 		"lodash.debounce": "^4.0.8",
+		"nuget-extensions-lib": "file:../lib",
 		"rimraf": "^2.6.3",
 		"user-home": "^2.0.0",
-		"yargs": "^13.2.1",
-		"nuget-extensions-lib": "^0.0.3-alpha"
+		"yargs": "^13.2.1"
 	}
 }

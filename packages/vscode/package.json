@@ -8,6 +8,9 @@
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
 	},
 	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"engines": {
+		"vscode": "^1.31.0"
+	},
 	"categories": [
 		"Other"
 	],
@@ -55,17 +58,14 @@
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile",
 		"vscode:prepublish": "yarn build",
-		"postinstall": "node ./node_modules/vscode/bin/install",
-		"test": "yarn build && node ./node_modules/vscode/bin/test",
+		"postinstall": "node ../../node_modules/vscode/bin/install",
+		"test": "yarn build && node ../../node_modules/vscode/bin/test",
 		"watch": "tsc -watch -p ./"
 	},
-	"devDependencies": {
-		"@types/mocha": "^2.2.42",
-		"@types/node": "^10.12.21",
-		"tslint": "^5.12.1",
-		"typescript": "^3.3.1"
-	},
 	"dependencies": {
-		"nuget-extensions-lib": "^0.0.3-alpha"
+		"nuget-extensions-lib": "file:../lib"
+	},
+	"devDependencies": {
+		"vscode": "^1.1.30"
 	}
 }

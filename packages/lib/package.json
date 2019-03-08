@@ -8,9 +8,11 @@
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
 	},
 	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
-	"main": "index.js",
+	"main": "out/index.js",
+	"types": "out/index.d.ts",
 	"files": [
-		"out/**/*.js"
+		"out/**/*.js",
+		"out/**/*.d.ts"
 	],
 	"scripts": {
 		"clean": "rimraf out",
@@ -18,12 +20,6 @@
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile",
 		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"devDependencies": {
-		"@types/node": "^11.10.4",
-		"prettier": "^1.16.4",
-		"tslint": "^5.13.1",
-		"typescript": "^3.3.3333"
 	},
 	"dependencies": {
 		"lodash.debounce": "^4.0.8",
