@@ -10,8 +10,11 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
-			"args": ["--extensionDevelopmentPath=${workspaceFolder}/packages/vscode"],
-			"outFiles": ["${workspaceFolder}/packages/vscode/out/*.js"],
+			"args": [
+				"${workspaceFolder}/packages/vscode/testbed",
+				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode"
+			],
+			"outFiles": ["${workspaceFolder}/packages/vscode/out/*.js"]
 		},
 		{
 			"name": "VSCode Extension Tests",
