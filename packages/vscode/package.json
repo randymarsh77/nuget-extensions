@@ -3,7 +3,7 @@
 	"name": "nuget-extensions-vscode",
 	"displayName": "NuGet Extensions",
 	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
-	"version": "0.0.3-alpha",
+	"version": "0.0.3-alpha.0",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
