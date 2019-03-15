@@ -1,14 +1,16 @@
 {
 	"private": true,
 	"name": "nuget-extensions-vscode",
+	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
 	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
-	"version": "0.0.3-alpha.1",
+	"version": "0.0.3",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
 	},
 	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"repository": "https://github.com/randymarsh77/nuget-extensions",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
