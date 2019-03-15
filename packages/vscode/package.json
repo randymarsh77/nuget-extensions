@@ -1,4 +1,5 @@
 {
+	"private": true,
 	"name": "nuget-extensions-vscode",
 	"displayName": "NuGet Extensions",
 	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
