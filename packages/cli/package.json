@@ -1,0 +1,32 @@
+{
+	"name": "nuget-extensions",
+	"version": "0.0.3-alpha",
+	"description": "Extensions for the NuGet CLI",
+	"main": "index.js",
+	"bin": {
+		"nuget-extensions": "./out/src/index.js"
+	},
+	"files": [
+		"out/**/*.js"
+	],
+	"scripts": {
+		"clean": "rimraf out",
+		"lint": "tslint -p ./",
+		"compile": "tsc -p ./",
+		"build": "yarn clean && yarn lint && yarn compile",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Matt Preucil <mattpsbs@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
+	},
+	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"dependencies": {
+		"lodash.debounce": "^4.0.8",
+		"nuget-extensions-lib": "file:../lib",
+		"rimraf": "^2.6.3",
+		"user-home": "^2.0.0",
+		"yargs": "^13.2.1"
+	}
+}

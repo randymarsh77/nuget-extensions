@@ -1,0 +1,71 @@
+{
+	"name": "nuget-extensions-vscode",
+	"displayName": "NuGet Extensions",
+	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
+	"version": "0.0.3-alpha",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
+	},
+	"homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
+	"engines": {
+		"vscode": "^1.31.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"main": "./out/extension.js",
+	"activationEvents": [
+		"onCommand:extension.nugex.register",
+		"onCommand:extension.nugex.link",
+		"onCommand:extension.nugex.list",
+		"onCommand:extension.nugex.watch"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.nugex.register",
+				"title": "Register NuGet packages"
+			},
+			{
+				"command": "extension.nugex.link",
+				"title": "Link to NuGet packages"
+			},
+			{
+				"command": "extension.nugex.list",
+				"title": "List currently registered package information"
+			},
+			{
+				"command": "extension.nugex.watch",
+				"title": "Watch NuGet links"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "NuGet Extensions",
+			"properties": {
+				"Nuget Extensions.shortCircuitPaths": {
+					"type": "string",
+					"default": null,
+					"description": "Using the Watch command will automatically apply short circuiting to these paths. This should be a comma delimited list of valid paths."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"clean": "rimraf out",
+		"lint": "tslint -p ./",
+		"compile": "tsc -p ./",
+		"build": "yarn clean && yarn lint && yarn compile",
+		"vscode:prepublish": "yarn build",
+		"postinstall": "node ../../node_modules/vscode/bin/install",
+		"test": "yarn build && node ../../node_modules/vscode/bin/test",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"nuget-extensions-lib": "file:../lib"
+	},
+	"devDependencies": {
+		"vscode": "^1.1.30"
+	}
+}

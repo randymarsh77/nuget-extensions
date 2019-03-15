@@ -1,30 +1,24 @@
 {
-  "name": "nuget-extensions",
-  "version": "0.0.1-alpha",
-  "description": "Extensions for the NuGet CLI",
-  "main": "index.js",
-  "bin": {
-    "nuget-extensions": "./index.js"
-  },
-  "files": [
-    "*.js"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Matt Preucil <mattpsbs@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/randymarsh77/nuget-extensions/issues"
-  },
-  "homepage": "https://github.com/randymarsh77/nuget-extensions#readme",
-  "devDependencies": {
-    "prettier": "^1.16.4"
-  },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "rimraf": "^2.6.3",
-    "user-home": "^2.0.0",
-    "yargs": "^13.2.1"
-  }
+	"private": true,
+	"name": "nuget-extensions-packages",
+	"workspaces": [
+		"packages/*"
+	],
+	"devDependencies": {
+		"@types/lodash.debounce": "^4.0.5",
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^10.12.21",
+		"@types/rimraf": "^2.0.2",
+		"@types/user-home": "^2.0.0",
+		"@types/yargs": "^12.0.9",
+		"lerna": "^3.13.1",
+		"prettier": "^1.16.4",
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1"
+	},
+	"dependencies": {
+		"nuget-extensions": "file:packages/cli",
+		"nuget-extensions-lib": "file:packages/lib",
+		"nuget-extensions-vscode": "file:packages/vscode"
+	}
 }
