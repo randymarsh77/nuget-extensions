@@ -11,7 +11,7 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": [
-				"${workspaceFolder}/packages/vscode/testbed",
+				"${workspaceFolder}/packages/vscode/tests",
 				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode"
 			],
 			"outFiles": ["${workspaceFolder}/packages/vscode/out/*.js"]
