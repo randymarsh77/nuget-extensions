@@ -66,9 +66,11 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
-		"nuget-extensions-lib": "file:../lib"
+		"nuget-extensions-lib": "^0.0.3-alpha.1"
 	},
 	"devDependencies": {
+		"tslint": "^5.14.0",
+		"typescript": "^3.3.3333",
 		"vscode": "^1.1.30"
 	}
 }
