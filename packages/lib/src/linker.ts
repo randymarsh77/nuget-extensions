@@ -7,7 +7,13 @@ import { updateProjectFile } from './csproj';
 
 type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
 
-export function installPackages(shortCircuitBuild?: string) {
+export function installPackages({
+	workingDirectory,
+	shortCircuitBuild,
+}: {
+	workingDirectory?: string;
+	shortCircuitBuild?: string;
+} = {}) {
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, assemblyVersion, directory } = registry[pkg];
@@ -18,12 +24,14 @@ export function installPackages(shortCircuitBuild?: string) {
 			rimraf.sync(guessedPackagePath);
 		}
 		console.log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
-		execFileSync('nuget', ['install', name, '-Version', version, '-Source', directory]);
+		execFileSync('nuget', ['install', name, '-Version', version, '-Source', directory], {
+			cwd: workingDirectory,
+		});
 		if (shortCircuitBuild && fs.existsSync(shortCircuitBuild)) {
 			const availableTargets = fs.readdirSync(path.join(guessedPackagePath, 'lib'));
 			if (availableTargets && availableTargets.length !== 0) {
 				const target = availableTargets[0];
-				const dllLocation = path.join(guessedPackagePath, 'lib', target);
+				const dllLocation = path.join(workingDirectory || '', guessedPackagePath, 'lib', target);
 				console.log('Short circuiting your build using', dllLocation);
 
 				fs.copyFileSync(
@@ -41,8 +49,14 @@ export function installPackages(shortCircuitBuild?: string) {
 	return packages;
 }
 
-export function link(projects: string[]) {
-	const packages = installPackages();
+export function link(
+	projects: string[],
+	options: {
+		workingDirectory?: string;
+		shortCircuitBuild?: string;
+	}
+) {
+	const packages = installPackages(options);
 	projects.forEach(project => {
 		console.log('Updating: ', project);
 		updateProjectFile(project, packages);

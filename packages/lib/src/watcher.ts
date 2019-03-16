@@ -6,16 +6,22 @@ const debounce = require('lodash.debounce');
 
 let batch = new Set();
 
-function doRefresh(shortCircuitBuild?: string) {
+function doRefresh({
+	shortCircuitBuild,
+	workingDirectory,
+}: {
+	shortCircuitBuild?: string;
+	workingDirectory?: string;
+}) {
 	const files = [...batch];
 	console.log('Processing change events for:', JSON.stringify(files, null, 2));
 	batch = new Set();
-	installPackages(shortCircuitBuild);
+	installPackages({ shortCircuitBuild, workingDirectory });
 }
 
 const refreshSoon = debounce(doRefresh, 5000);
 
-export function watch({ shortCircuitBuild }: { shortCircuitBuild?: string }) {
+export function watch(options: { shortCircuitBuild?: string; workingDirectory?: string }) {
 	const registry = readRegistry();
 	const directories = Object.keys(registry).reduce((acc, pkg) => {
 		const { directory } = registry[pkg];
@@ -27,7 +33,7 @@ export function watch({ shortCircuitBuild }: { shortCircuitBuild?: string }) {
 			console.log('event: ', eventType, filename);
 			if (registry[filename]) {
 				batch.add(filename);
-				refreshSoon(shortCircuitBuild);
+				refreshSoon(options);
 			}
 		});
 	}, []);

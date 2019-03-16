@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('extension.nugex.link', async () => {
 			const target = await pickLinkTarget();
 			if (target && target.kind === LinkTargetKind.Project) {
-				link([target.target]);
+				link([target.target], { workingDirectory: vscode.workspace.rootPath });
 			} else if (target) {
 				vscode.window.showInformationMessage('Only projects are supported at this time.');
 			}
@@ -27,7 +27,10 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('extension.nugex.watch', async () => {
 			const config = vscode.workspace.getConfiguration('Nuget Extensions');
 			const paths = (config.get<string>('shortCircuitPaths') || '').split(',');
-			watch({ shortCircuitBuild: (paths.length !== 0 && paths[0]) || undefined });
+			watch({
+				shortCircuitBuild: (paths.length !== 0 && paths[0]) || undefined,
+				workingDirectory: vscode.workspace.rootPath,
+			});
 		})
 	);
 }
