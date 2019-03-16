@@ -2,7 +2,8 @@
 	"private": true,
 	"name": "nuget-extensions-packages",
 	"workspaces": [
-		"packages/*"
+		"packages/lib",
+		"packages/cli"
 	],
 	"devDependencies": {
 		"@types/lodash.debounce": "^4.0.5",
@@ -19,7 +20,6 @@
 	},
 	"dependencies": {
 		"nuget-extensions": "file:packages/cli",
-		"nuget-extensions-lib": "file:packages/lib",
-		"nuget-extensions-vscode": "file:packages/vscode"
+		"nuget-extensions-lib": "file:packages/lib"
 	}
 }
