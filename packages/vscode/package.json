@@ -50,7 +50,7 @@
 				"Nuget Extensions.shortCircuitPaths": {
 					"type": "string",
 					"default": null,
-					"description": "Using the Watch command will automatically apply short circuiting to these paths. This should be a comma delimited list of valid paths."
+					"description": "Using the Watch command will automatically apply short circuiting to these paths. This should be a comma delimited list of valid paths. You can use `${workspaceFolder}` in the path."
 				}
 			}
 		}

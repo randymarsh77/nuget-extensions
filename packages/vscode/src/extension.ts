@@ -26,7 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
 		}),
 		vscode.commands.registerCommand('extension.nugex.watch', async () => {
 			const config = vscode.workspace.getConfiguration('Nuget Extensions');
-			const paths = (config.get<string>('shortCircuitPaths') || '').split(',');
+			const paths = (config.get<string>('shortCircuitPaths') || '')
+				.split(',')
+				.map(x => x.replace('${workspaceFolder}', vscode.workspace.rootPath || ''));
+
 			watch({
 				shortCircuitBuild: (paths.length !== 0 && paths[0]) || undefined,
 				workingDirectory: vscode.workspace.rootPath,

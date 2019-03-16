@@ -17,7 +17,10 @@ export function installPackages({
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, assemblyVersion, directory } = registry[pkg];
-		const guessedPackagePath = path.join(process.cwd(), 'packages', `${name}.${version}`);
+		const guessedPackagePath = path.join(
+			resolvePackagesDirectory(workingDirectory || process.cwd()),
+			`${name}.${version}`
+		);
 		console.log('Guessed path:', guessedPackagePath);
 		if (fs.existsSync(guessedPackagePath)) {
 			console.log('Removing existing package at:', guessedPackagePath);
@@ -28,10 +31,11 @@ export function installPackages({
 			cwd: workingDirectory,
 		});
 		if (shortCircuitBuild && fs.existsSync(shortCircuitBuild)) {
-			const availableTargets = fs.readdirSync(path.join(guessedPackagePath, 'lib'));
+			const lib = path.join(guessedPackagePath, 'lib');
+			const availableTargets = fs.existsSync(lib) ? fs.readdirSync(lib) : [];
 			if (availableTargets && availableTargets.length !== 0) {
 				const target = availableTargets[0];
-				const dllLocation = path.join(workingDirectory || '', guessedPackagePath, 'lib', target);
+				const dllLocation = path.join(lib, target);
 				console.log('Short circuiting your build using', dllLocation);
 
 				fs.copyFileSync(
@@ -62,4 +66,26 @@ export function link(
 		updateProjectFile(project, packages);
 	});
 	console.log('Success!');
+}
+
+function resolvePackagesDirectory(fromDirectory: string) {
+	let foundConfigDirectory = false;
+	let keepSearching = true;
+	let currentDirectory = fromDirectory;
+	while (!foundConfigDirectory && keepSearching) {
+		foundConfigDirectory = fs.existsSync(path.join(currentDirectory, 'nuget.config'));
+		if (!foundConfigDirectory) {
+			const parts = currentDirectory.split(path.sep);
+			if (parts.length > 1) {
+				currentDirectory = path.join(...parts.slice(0, parts.length - 1));
+			} else {
+				keepSearching = false;
+			}
+		}
+	}
+	const relativeLocation =
+		execFileSync('nuget', ['config', 'repositoryPath'], { cwd: fromDirectory })
+			.toString()
+			.trim() || 'packages';
+	return path.join(foundConfigDirectory ? currentDirectory : fromDirectory, relativeLocation);
 }
