@@ -4,7 +4,7 @@
 	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
 	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
-	"version": "0.0.3",
+	"version": "0.0.4-alpha.0",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
@@ -66,7 +66,7 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
-		"nuget-extensions-lib": "^0.0.3-alpha.1"
+		"nuget-extensions-lib": "^0.0.4-alpha.0"
 	},
 	"devDependencies": {
 		"vscode": "^1.1.30"
