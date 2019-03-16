@@ -66,7 +66,7 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
-		"nuget-extensions-lib": "file:../lib"
+		"nuget-extensions-lib": "^0.0.3-alpha.1"
 	},
 	"devDependencies": {
 		"vscode": "^1.1.30"

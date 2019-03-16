@@ -3619,13 +3619,13 @@ npm-run-path@^2.0.0:
 "nuget-extensions-vscode@file:packages/vscode":
   version "0.0.3"
   dependencies:
-    nuget-extensions-lib "file:../../Library/Caches/Yarn/v4/npm-nuget-extensions-vscode-0.0.3-a4dbb0a4-36a8-419e-99a2-cf67253d58e0-1552634285108/node_modules/lib"
+    nuget-extensions-lib "^0.0.3-alpha.1"
 
 "nuget-extensions@file:packages/cli":
   version "0.0.3-alpha.1"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../Library/Caches/Yarn/v4/npm-nuget-extensions-0.0.3-alpha.1-614004ff-52f0-43c2-a2ec-f4441a846377-1552634285049/node_modules/lib"
+    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.3-alpha.1-ff9c48b3-56ca-45e4-b8a4-4c08621f51e1-1552695101118/node_modules/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
