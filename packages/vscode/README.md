@@ -8,7 +8,7 @@ _Note: This is an early alpha version. There are limitations. Please see the Git
 
 Open the command pallette and register NuGet packages to be locally linked (similar to `npm link`).
 
-![](images/RegisterPackages.gif)
+![](https://raw.githubusercontent.com/randymarsh77/nuget-extensions/master/packages/vscode/images/RegisterPackages.gif)
 
 <hr>
 
@@ -16,7 +16,7 @@ Next, link your code to local builds of your NuGet dependencies for the purpose 
 
 <hr>
 
-![](images/LinkProjects.gif)
+![](https://raw.githubusercontent.com/randymarsh77/nuget-extensions/master/packages/vscode/images/LinkProjects.gif)
 
 <hr>
 
@@ -24,7 +24,7 @@ Finally, short circuit your downstream build process if you're building API and 
 
 <hr>
 
-![](images/WatchLinks.gif)
+![](https://raw.githubusercontent.com/randymarsh77/nuget-extensions/master/packages/vscode/images/WatchLinks.gif)
 
 ## Requirements
 

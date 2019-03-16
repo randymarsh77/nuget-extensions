@@ -4,7 +4,7 @@
 	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
 	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
