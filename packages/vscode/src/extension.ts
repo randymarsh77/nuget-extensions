@@ -9,6 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const target = await pickRegisterTarget();
 			if (target && target.kind === RegisterTargetKind.Directory) {
 				registerPackages(target.directory);
+				vscode.window.showInformationMessage(`Registered all packages in ${target.directory}`);
 			} else if (target) {
 				vscode.window.showInformationMessage('Only directories are supported at this time.');
 			}
@@ -17,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const target = await pickLinkTarget();
 			if (target && target.kind === LinkTargetKind.Project) {
 				link([target.target], { workingDirectory: vscode.workspace.rootPath });
+				vscode.window.showInformationMessage(`Linked all packages in ${target.target}`);
 			} else if (target) {
 				vscode.window.showInformationMessage('Only projects are supported at this time.');
 			}
