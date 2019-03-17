@@ -16,7 +16,7 @@ const _ = yargs
 			}),
 		argv => {
 			if (argv.projects) {
-				link(argv.projects.split(','));
+				link(argv.projects.split(','), {});
 			} else {
 				registerPackages(process.cwd());
 			}

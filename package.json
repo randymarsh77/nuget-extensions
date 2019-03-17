@@ -5,6 +5,10 @@
 		"packages/lib",
 		"packages/cli"
 	],
+	"scripts": {
+		"postinstall": "lerna bootstrap",
+		"test": "node build-travis.js"
+	},
 	"devDependencies": {
 		"@types/lodash.debounce": "^4.0.5",
 		"@types/mocha": "^2.2.42",

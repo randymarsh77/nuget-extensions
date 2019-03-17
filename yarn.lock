@@ -3616,16 +3616,11 @@ npm-run-path@^2.0.0:
     user-home "^2.0.0"
     yargs "^13.2.1"
 
-"nuget-extensions-vscode@file:packages/vscode":
-  version "0.0.4-alpha.0"
-  dependencies:
-    nuget-extensions-lib "^0.0.4-alpha.0"
-
 "nuget-extensions@file:packages/cli":
   version "0.0.4-alpha.0"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.4-alpha.0-e28a5235-aa00-4808-8c34-b9aa5fedec04-1552722169934/node_modules/lib"
+    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.4-alpha.0-9fe6ed59-5be9-407a-b148-b6c012708555-1552855256921/node_modules/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
