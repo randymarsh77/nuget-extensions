@@ -6,7 +6,7 @@
 		"packages/cli"
 	],
 	"scripts": {
-		"postinstall": "lerna bootstrap",
+		"postinstall": "lerna bootstrap && lerna link",
 		"test": "node build-travis.js"
 	},
 	"devDependencies": {
