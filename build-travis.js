@@ -6,7 +6,7 @@ const packages = ['packages/lib', 'packages/cli'];
 
 packages.reduce((_, package) => {
 	console.log('Building', package);
-	execFileSync('yarn', [], {
+	execFileSync('yarn', ['--force'], {
 		cwd: path.join(process.cwd(), package),
 		stdio: [process.stdin, process.stdout, process.stderr],
 	});
