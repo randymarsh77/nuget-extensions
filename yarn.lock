@@ -3614,7 +3614,6 @@ npm-run-path@^2.0.0:
     lodash.debounce "^4.0.8"
     rimraf "^2.6.3"
     user-home "^2.0.0"
-    yargs "^13.2.1"
 
 "nuget-extensions@file:packages/cli":
   version "0.0.4-alpha.0"
