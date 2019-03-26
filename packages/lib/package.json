@@ -19,7 +19,7 @@
 		"lint": "tslint -p ./",
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "yarn jest"
 	},
 	"dependencies": {
 		"lodash.debounce": "^4.0.8",
@@ -33,6 +33,7 @@
 		"@types/jest": "^24.0.11",
 		"babel-jest": "^24.5.0",
 		"jest": "^24.5.0",
+		"jest-cli": "^24.5.0",
 		"ts-jest": "^24.0.0"
 	}
 }

@@ -14,7 +14,7 @@
 		"lint": "tslint -p ./",
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Warning: no test specified\" && exit 0"
 	},
 	"author": "Matt Preucil <mattpsbs@gmail.com>",
 	"license": "MIT",
@@ -28,5 +28,8 @@
 		"rimraf": "^2.6.3",
 		"user-home": "^2.0.0",
 		"yargs": "^13.2.1"
+	},
+	"devDependencies": {
+		"jest-cli": "^24.5.0"
 	}
 }
