@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import { readRegistry, IPackage } from './registry';
 import { updateProjectFile } from './csproj';
+import { parseSolution } from './solution';
 
 type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
 
@@ -54,18 +55,30 @@ export function installPackages({
 }
 
 export function link(
-	projects: string[],
+	destinations: string[],
 	options: {
 		workingDirectory?: string;
 		shortCircuitBuild?: string;
 	}
 ) {
 	const packages = installPackages(options);
-	projects.forEach(project => {
-		console.log('Updating: ', project);
-		updateProjectFile(project, packages);
+	destinations.forEach(destination => {
+		if (destination.endsWith('.csproj')) {
+			console.log('Updating: ', destination);
+			updateProjectFile(destination, packages);
+		} else if (destination.endsWith('.sln')) {
+			console.log('Scanning solution...');
+			const projects = parseSolution(destination);
+			projects.forEach(project => {
+				const resolvedProjectPath = path.join(path.dirname(destination), project.path);
+				console.log(`Updating: ${project.name} @ ${resolvedProjectPath}`);
+				updateProjectFile(resolvedProjectPath, packages);
+			});
+		} else {
+			console.error('Unrecognized link destination: ', destination);
+		}
 	});
-	console.log('Success!');
+	console.log('Done!');
 }
 
 function resolvePackagesDirectory(fromDirectory: string) {
