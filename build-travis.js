@@ -16,12 +16,6 @@ packages.reduce((_, package) => {
 		stdio: [process.stdin, process.stdout, process.stderr],
 	});
 
-	// yarn install destroys symlinks (in devDependency deps), make sure `yarn jest` works.
-	execFileSync('yarn', ['add', '--dev', 'jest-cli'], {
-		cwd: path.join(process.cwd(), package),
-		stdio: [process.stdin, process.stdout, process.stderr],
-	});
-
 	execFileSync('yarn', ['test'], {
 		cwd: path.join(process.cwd(), package),
 		stdio: [process.stdin, process.stdout, process.stderr],
