@@ -7,17 +7,17 @@
 
 This is a monorepo for NuGet Extensions and contains the following packages:
 
-[Lib](packages/lib/readme.md)
+[Lib](packages/lib/README.md)
 
 [![NPM](https://img.shields.io/npm/v/nuget-extensions-lib.svg)]()
 [![downloads](https://img.shields.io/npm/dt/nuget-extensions-lib.svg)]()
 
-[CLI](packages/cli/readme.md)
+[CLI](packages/cli/README.md)
 
 [![NPM](https://img.shields.io/npm/v/nuget-extensions.svg)]()
 [![downloads](https://img.shields.io/npm/dt/nuget-extensions.svg)]()
 
-[VSCode](packages/vscode/readme.md)
+[VSCode](packages/vscode/README.md)
 
 [![version](https://img.shields.io/github/tag/randymarsh77/nuget-extensions.svg)]()
 [![installs](https://img.shields.io/visual-studio-marketplace/i/randymarsh77.nuget-extensions-vscode.svg)]()
