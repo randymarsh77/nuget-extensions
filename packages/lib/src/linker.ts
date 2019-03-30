@@ -70,7 +70,9 @@ export function link(
 			console.log('Scanning solution...');
 			const projects = parseSolution(destination);
 			projects.forEach(project => {
-				const resolvedProjectPath = path.join(path.dirname(destination), project.path);
+				const resolvedProjectPath = path.normalize(
+					path.join(path.dirname(destination), project.path.split('\\').join(path.sep))
+				);
 				console.log(`Updating: ${project.name} @ ${resolvedProjectPath}`);
 				updateProjectFile(resolvedProjectPath, packages);
 			});
