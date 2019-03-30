@@ -24,9 +24,12 @@ packages.reduce((_, package) => {
 		});
 	}
 
-	execFileSync('yarn', ['test'], {
-		cwd: path.join(process.cwd(), package),
-		stdio: [process.stdin, process.stdout, process.stderr],
-	});
+	// The current travis.yml doesn't support launching VSCode windows for integration tests.
+	if (package !== 'packages/vscode') {
+		execFileSync('yarn', ['test'], {
+			cwd: path.join(process.cwd(), package),
+			stdio: [process.stdin, process.stdout, process.stderr],
+		});
+	}
 	return _;
 }, {});
