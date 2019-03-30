@@ -1,4 +1,5 @@
 import { execFileSync } from 'child_process';
+import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
@@ -27,10 +28,29 @@ export function installPackages({
 			console.log('Removing existing package at:', guessedPackagePath);
 			rimraf.sync(guessedPackagePath);
 		}
+
 		console.log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
 		execFileSync('nuget', ['install', name, '-Version', version, '-Source', directory], {
 			cwd: workingDirectory,
 		});
+
+		console.log('Verifying package sources...');
+		const sourceKey = crypto
+			.createHash('md5')
+			.update(directory)
+			.digest('hex');
+		const keyExists =
+			execFileSync('nuget', ['sources', 'list'], {
+				cwd: workingDirectory,
+			})
+				.toString()
+				.indexOf(sourceKey) !== -1;
+		const operation = keyExists ? 'update' : 'add';
+		console.log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
+		execFileSync('nuget', ['sources', operation, '-Name', sourceKey, '-Source', directory], {
+			cwd: workingDirectory,
+		});
+
 		if (shortCircuitBuild && fs.existsSync(shortCircuitBuild)) {
 			const lib = path.join(guessedPackagePath, 'lib');
 			const availableTargets = fs.existsSync(lib) ? fs.readdirSync(lib) : [];
