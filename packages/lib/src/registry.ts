@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as home from 'user-home';
+import { ILogger } from './logger';
 
 const nugexDataDir = path.join(home, '.nugex');
 const registryPath = path.join(nugexDataDir, 'registry.json');
@@ -48,7 +49,8 @@ function parsePackage(pkg: string): Pick<IPackage, 'name' | 'version' | 'extensi
 	};
 }
 
-export function registerPackages(directory: string) {
+export function registerPackages(directory: string, { logger }: { logger?: ILogger }) {
+	const log = (x: string) => logger && logger.log(x);
 	const registry = fs
 		.readdirSync(directory)
 		.filter(x => x.endsWith('.nupkg'))
@@ -59,9 +61,9 @@ export function registerPackages(directory: string) {
 			}
 
 			if (acc[v]) {
-				console.log(`Registry entry exists for ${v}... skipping.`);
+				log(`Registry entry exists for ${v}... skipping.`);
 			} else {
-				console.log(`Registering ${v}.`);
+				log(`Registering ${v}.`);
 				const { name, version, extension } = parsed;
 				acc[v] = {
 					name,
@@ -74,5 +76,5 @@ export function registerPackages(directory: string) {
 			return acc;
 		}, readRegistry());
 	writeRegistry(registry);
-	console.log('Success!');
+	log('Success!');
 }

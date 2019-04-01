@@ -4,11 +4,23 @@ import { findLinkTargets, LinkTarget, LinkTargetKind } from './link-utility';
 import { findRegisterTargets, RegisterTarget, RegisterTargetKind } from './register-utility';
 
 export function activate(context: vscode.ExtensionContext) {
+	const channel = vscode.window.createOutputChannel('NuGet Extensions (general)');
+	const logger = {
+		log: (x: string) => channel.appendLine(x),
+		error: (x: string) => channel.appendLine(`ERROR: ${x}`),
+	};
+
+	const watchChannel = vscode.window.createOutputChannel('NuGet Extensions (watch)');
+	const watchLogger = {
+		log: (x: string) => watchChannel.appendLine(x),
+		error: (x: string) => watchChannel.appendLine(`ERROR: ${x}`),
+	};
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('extension.nugex.register', async () => {
 			const target = await pickRegisterTarget();
 			if (target && target.kind === RegisterTargetKind.Directory) {
-				registerPackages(target.directory);
+				registerPackages(target.directory, { logger });
 				vscode.window.showInformationMessage(`Registered all packages in ${target.directory}`);
 			} else if (target) {
 				vscode.window.showInformationMessage('Only directories are supported at this time.');
@@ -20,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 				target &&
 				(target.kind === LinkTargetKind.Project || target.kind === LinkTargetKind.Solution)
 			) {
-				link([target.target], { workingDirectory: vscode.workspace.rootPath });
+				link([target.target], { workingDirectory: vscode.workspace.rootPath, logger });
 				vscode.window.showInformationMessage(`Linked all packages in ${target.target}`);
 			} else if (target) {
 				vscode.window.showInformationMessage(
@@ -36,11 +48,23 @@ export function activate(context: vscode.ExtensionContext) {
 			const paths = (config.get<string>('shortCircuitPaths') || '')
 				.split(',')
 				.map(x => x.replace('${workspaceFolder}', vscode.workspace.rootPath || ''));
+			const shortCircuitBuild = (paths.length !== 0 && paths[0]) || undefined;
 
 			watch({
-				shortCircuitBuild: (paths.length !== 0 && paths[0]) || undefined,
+				shortCircuitBuild,
 				workingDirectory: vscode.workspace.rootPath,
+				logger: watchLogger,
 			});
+			const shouldShowOutput = await vscode.window.showInformationMessage(
+				`Starting to watch for changes to linked NuGet package changes.\nShort circuiting is ${
+					shortCircuitBuild ? 'ON' : 'OFF'
+				}.`,
+				{},
+				{ title: 'Show Output' }
+			);
+			if (shouldShowOutput) {
+				watchChannel.show();
+			}
 		})
 	);
 }

@@ -3,6 +3,13 @@
 import * as yargs from 'yargs';
 import { link, registerPackages, readRegistry, writeRegistry, watch } from 'nuget-extensions-lib';
 
+/* tslint:disable:no-console */
+const logger = {
+	log: console.log,
+	error: console.error,
+};
+/* tslint:enable:no-console */
+
 const _ = yargs
 	.usage('Usage: $0 <command> [options]')
 	.command(
@@ -16,9 +23,9 @@ const _ = yargs
 			}),
 		argv => {
 			if (argv.projects) {
-				link(argv.projects.split(','), {});
+				link(argv.projects.split(','), { logger });
 			} else {
-				registerPackages(process.cwd());
+				registerPackages(process.cwd(), { logger });
 			}
 		}
 	)
@@ -28,7 +35,7 @@ const _ = yargs
 		},
 	})
 	.command('list', 'List linked packages.', {
-		handler: () => console.log(JSON.stringify(readRegistry(), null, 2)),
+		handler: () => logger.log(JSON.stringify(readRegistry(), null, 2)),
 	})
 	.command(
 		'watch',
@@ -42,6 +49,7 @@ const _ = yargs
 		argv => {
 			watch({
 				shortCircuitBuild: argv['short-circuit-build'],
+				logger,
 			});
 		}
 	).argv;

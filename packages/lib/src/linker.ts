@@ -6,16 +6,20 @@ import * as rimraf from 'rimraf';
 import { readRegistry, IPackage } from './registry';
 import { updateProjectFile } from './csproj';
 import { parseSolution } from './solution';
+import { ILogger } from './logger';
 
 type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
 
 export function installPackages({
 	workingDirectory,
 	shortCircuitBuild,
+	logger,
 }: {
 	workingDirectory?: string;
 	shortCircuitBuild?: string;
+	logger?: ILogger;
 } = {}) {
+	const log = (x: string) => logger && logger.log(x);
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, assemblyVersion, directory } = registry[pkg];
@@ -23,18 +27,18 @@ export function installPackages({
 			resolvePackagesDirectory(workingDirectory || process.cwd()),
 			`${name}.${version}`
 		);
-		console.log('Guessed path:', guessedPackagePath);
+		log(`Guessed path: ${guessedPackagePath}`);
 		if (fs.existsSync(guessedPackagePath)) {
-			console.log('Removing existing package at:', guessedPackagePath);
+			log(`Removing existing package at: ${guessedPackagePath}`);
 			rimraf.sync(guessedPackagePath);
 		}
 
-		console.log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
+		log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
 		execFileSync('nuget', ['install', name, '-Version', version, '-Source', directory], {
 			cwd: workingDirectory,
 		});
 
-		console.log('Verifying package sources...');
+		log('Verifying package sources...');
 		const sourceKey = crypto
 			.createHash('md5')
 			.update(directory)
@@ -46,7 +50,7 @@ export function installPackages({
 				.toString()
 				.indexOf(sourceKey) !== -1;
 		const operation = keyExists ? 'update' : 'add';
-		console.log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
+		log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
 		execFileSync('nuget', ['sources', operation, '-Name', sourceKey, '-Source', directory], {
 			cwd: workingDirectory,
 		});
@@ -57,7 +61,7 @@ export function installPackages({
 			if (availableTargets && availableTargets.length !== 0) {
 				const target = availableTargets[0];
 				const dllLocation = path.join(lib, target);
-				console.log('Short circuiting your build using', dllLocation);
+				log(`Short circuiting your build using ${dllLocation}`);
 
 				fs.copyFileSync(
 					path.join(dllLocation, `${name}.dll`),
@@ -79,28 +83,32 @@ export function link(
 	options: {
 		workingDirectory?: string;
 		shortCircuitBuild?: string;
+		logger?: ILogger;
 	}
 ) {
+	const logger = options.logger;
+	const log = (x: string) => logger && logger.log(x);
+	const logError = (x: string) => logger && logger.error(x);
 	const packages = installPackages(options);
 	destinations.forEach(destination => {
 		if (destination.endsWith('.csproj')) {
-			console.log('Updating: ', destination);
+			log(`Updating:  ${destination}`);
 			updateProjectFile(destination, packages);
 		} else if (destination.endsWith('.sln')) {
-			console.log('Scanning solution...');
+			log('Scanning solution...');
 			const projects = parseSolution(destination);
 			projects.forEach(project => {
 				const resolvedProjectPath = path.normalize(
 					path.join(path.dirname(destination), project.path.split('\\').join(path.sep))
 				);
-				console.log(`Updating: ${project.name} @ ${resolvedProjectPath}`);
+				log(`Updating: ${project.name} @ ${resolvedProjectPath}`);
 				updateProjectFile(resolvedProjectPath, packages);
 			});
 		} else {
-			console.error('Unrecognized link destination: ', destination);
+			logError(`Unrecognized link destination: ${destination}`);
 		}
 	});
-	console.log('Done!');
+	log('Done!');
 }
 
 function resolvePackagesDirectory(fromDirectory: string) {
