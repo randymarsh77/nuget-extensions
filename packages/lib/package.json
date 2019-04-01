@@ -1,6 +1,6 @@
 {
 	"name": "nuget-extensions-lib",
-	"version": "0.0.4-alpha.0",
+	"version": "0.0.5-alpha.0",
 	"description": "The library that supports the nuget-extensions CLI and VSCode extension.",
 	"author": "Matt Preucil <mattpsbs@gmail.com>",
 	"license": "MIT",
