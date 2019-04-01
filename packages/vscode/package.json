@@ -22,7 +22,8 @@
 		"onCommand:extension.nugex.register",
 		"onCommand:extension.nugex.link",
 		"onCommand:extension.nugex.list",
-		"onCommand:extension.nugex.watch"
+		"onCommand:extension.nugex.startWatchTask",
+		"onCommand:extension.nugex.stopWatchTask"
 	],
 	"contributes": {
 		"commands": [
@@ -39,8 +40,12 @@
 				"title": "List currently registered package information"
 			},
 			{
-				"command": "extension.nugex.watch",
-				"title": "Watch NuGet links"
+				"command": "extension.nugex.startWatchTask",
+				"title": "Start watching NuGet links"
+			},
+			{
+				"command": "extension.nugex.stopWatchTask",
+				"title": "Stop watching NuGet links"
 			}
 		],
 		"configuration": {

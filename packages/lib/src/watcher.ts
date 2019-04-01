@@ -29,7 +29,7 @@ export function watch(options: {
 	shortCircuitBuild?: string;
 	workingDirectory?: string;
 	logger?: ILogger;
-}) {
+}): fs.FSWatcher[] {
 	const registry = readRegistry();
 	const directories = Object.keys(registry).reduce((acc, pkg) => {
 		const { directory } = registry[pkg];
@@ -39,15 +39,18 @@ export function watch(options: {
 	const logger = options.logger;
 	const log = (x: string) => logger && logger.log(x);
 
-	[...directories].reduce((_, v) => {
+	const watchers = [...directories].reduce((acc, v) => {
 		log(`Watching for changes in: ${v}`);
-		fs.watch(v, (eventType: string, filename: string) => {
-			log(`event: ${eventType} ${filename}`);
-			if (registry[filename]) {
-				batch.add(filename);
-				refreshSoon(options);
-			}
-		});
+		return [
+			...acc,
+			fs.watch(v, (eventType: string, filename: string) => {
+				log(`event: ${eventType} ${filename}`);
+				if (registry[filename]) {
+					batch.add(filename);
+					refreshSoon(options);
+				}
+			}),
+		];
 	}, []);
 
 	if (options.shortCircuitBuild) {
@@ -55,4 +58,6 @@ export function watch(options: {
 		log(`Executing an initial install...`);
 		refreshSoon(options);
 	}
+
+	return watchers;
 }

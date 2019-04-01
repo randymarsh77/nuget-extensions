@@ -1,19 +1,14 @@
 import * as vscode from 'vscode';
-import { link, readRegistry, registerPackages, watch } from 'nuget-extensions-lib';
+import { link, readRegistry, registerPackages } from 'nuget-extensions-lib';
 import { findLinkTargets, LinkTarget, LinkTargetKind } from './link-utility';
 import { findRegisterTargets, RegisterTarget, RegisterTargetKind } from './register-utility';
+import { startWatchTask, stopWatchTask } from './commands/watch';
 
 export function activate(context: vscode.ExtensionContext) {
 	const channel = vscode.window.createOutputChannel('NuGet Extensions (general)');
 	const logger = {
 		log: (x: string) => channel.appendLine(x),
 		error: (x: string) => channel.appendLine(`ERROR: ${x}`),
-	};
-
-	const watchChannel = vscode.window.createOutputChannel('NuGet Extensions (watch)');
-	const watchLogger = {
-		log: (x: string) => watchChannel.appendLine(x),
-		error: (x: string) => watchChannel.appendLine(`ERROR: ${x}`),
 	};
 
 	context.subscriptions.push(
@@ -43,28 +38,11 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('extension.nugex.list', async () => {
 			vscode.window.showInformationMessage(JSON.stringify(readRegistry(), null, 2));
 		}),
-		vscode.commands.registerCommand('extension.nugex.watch', async () => {
-			const config = vscode.workspace.getConfiguration('Nuget Extensions');
-			const paths = (config.get<string>('shortCircuitPaths') || '')
-				.split(',')
-				.map(x => x.replace('${workspaceFolder}', vscode.workspace.rootPath || ''));
-			const shortCircuitBuild = (paths.length !== 0 && paths[0]) || undefined;
-
-			watch({
-				shortCircuitBuild,
-				workingDirectory: vscode.workspace.rootPath,
-				logger: watchLogger,
-			});
-			const shouldShowOutput = await vscode.window.showInformationMessage(
-				`Starting to watch for changes to linked NuGet package changes.\nShort circuiting is ${
-					shortCircuitBuild ? 'ON' : 'OFF'
-				}.`,
-				{},
-				{ title: 'Show Output' }
-			);
-			if (shouldShowOutput) {
-				watchChannel.show();
-			}
+		vscode.commands.registerCommand('extension.nugex.startWatchTask', async () => {
+			startWatchTask(context);
+		}),
+		vscode.commands.registerCommand('extension.nugex.stopWatchTask', async () => {
+			stopWatchTask(context);
 		})
 	);
 }
