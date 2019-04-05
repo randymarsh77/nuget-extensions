@@ -13,4 +13,4 @@ packages.reduce((_, package) => {
 	};
 
 	exec('codecov', ['-F', `${package.substring('packages/'.length)}`]);
-});
+}, {});
