@@ -29,7 +29,7 @@ packages.reduce((_, package) => {
 
 	// The current travis.yml doesn't support launching VSCode windows for integration tests.
 	if (package !== 'packages/vscode') {
-		execYarn(['test']);
+		execYarn(['test', '--coverage']);
 	}
 	return _;
 }, {});
