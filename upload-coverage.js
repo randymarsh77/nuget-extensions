@@ -2,7 +2,7 @@ const { execFileSync } = require('child_process');
 const path = require('path');
 const process = require('process');
 
-const packages = ['packages/lib', 'packages/cli'];
+const packages = ['packages/lib', 'packages/cli', 'packages/vscode'];
 
 packages.reduce((_, package) => {
 	const exec = (command, args) => {
