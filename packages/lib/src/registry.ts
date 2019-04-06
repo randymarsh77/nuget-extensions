@@ -3,8 +3,11 @@ import * as path from 'path';
 import * as home from 'user-home';
 import { ILogger } from './logger';
 
-const nugexDataDir = path.join(home, '.nugex');
-const registryPath = path.join(nugexDataDir, 'registry.json');
+function resolveEnvironment() {
+	const nugexDataDir = process.env.NUGEX_DIR || path.join(home, '.nugex');
+	const registryPath = path.join(nugexDataDir, 'registry.json');
+	return { registryPath, nugexDataDir };
+}
 
 export interface IPackage {
 	name: string;
@@ -19,6 +22,7 @@ export interface IRegistry {
 }
 
 export function readRegistry(): IRegistry {
+	const { registryPath } = resolveEnvironment();
 	if (!fs.existsSync(registryPath)) {
 		return {};
 	}
@@ -27,6 +31,7 @@ export function readRegistry(): IRegistry {
 }
 
 export function writeRegistry(registry: IRegistry) {
+	const { registryPath, nugexDataDir } = resolveEnvironment();
 	if (!fs.existsSync(nugexDataDir)) {
 		fs.mkdirSync(nugexDataDir);
 	}
@@ -77,4 +82,43 @@ export function registerPackages(directory: string, { logger }: { logger?: ILogg
 		}, readRegistry());
 	writeRegistry(registry);
 	log('Success!');
+}
+
+export function unregisterPackagesInDirectory(directory: string, { logger }: { logger?: ILogger }) {
+	const log = (x: string) => logger && logger.log(x);
+	log(`Unregistering packages in ${directory}`);
+	const registry = readRegistry();
+	const updated = Object.keys(registry).reduce((acc, v) => {
+		if (directory === acc[v].directory) {
+			delete acc[v];
+		}
+		return acc;
+	}, registry);
+	writeRegistry(updated);
+	log('Success!');
+}
+
+export function unregisterPackagesMatchingPattern(
+	pattern: string,
+	{ logger }: { logger?: ILogger }
+) {
+	const log = (x: string) => logger && logger.log(x);
+	log(`Unregistering packages matching ${pattern}`);
+	const registry = readRegistry();
+	const updated = Object.keys(registry).reduce((acc, v) => {
+		if (matchesPattern(acc[v].name, pattern)) {
+			delete acc[v];
+		}
+		return acc;
+	}, registry);
+	writeRegistry(updated);
+	log('Success!');
+}
+
+function matchesPattern(name: string, pattern: string): boolean {
+	if (!pattern.endsWith('*')) {
+		return name === pattern;
+	}
+
+	return name.indexOf(pattern.substring(0, pattern.length - 1)) !== -1;
 }

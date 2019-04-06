@@ -1,0 +1,23 @@
+{
+	"NugEx.TestPackage.0.0.0-Debug.nupkg": {
+		"name": "NugEx.TestPackage",
+		"version": "0.0.0-Debug",
+		"assemblyVersion": "0.0.0.0",
+		"extension": "nupkg",
+		"directory": "packages"
+	},
+	"NugEx.Tests.A.0.0.0-Debug.nupkg": {
+		"name": "NugEx.Tests.A",
+		"version": "0.0.0-Debug",
+		"assemblyVersion": "0.0.0.0",
+		"extension": "nupkg",
+		"directory": "packages"
+	},
+	"NugEx.Tests.B.0.0.0-Debug.nupkg": {
+		"name": "NugEx.Tests.B",
+		"version": "0.0.0-Debug",
+		"assemblyVersion": "0.0.0.0",
+		"extension": "nupkg",
+		"directory": "packages"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"NugEx.TestPackage.0.0.0-Debug.nupkg": {
+		"name": "NugEx.TestPackage",
+		"version": "0.0.0-Debug",
+		"assemblyVersion": "0.0.0.0",
+		"extension": "nupkg",
+		"directory": "packages"
+	}
+}
