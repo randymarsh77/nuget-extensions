@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import { installPackages } from './linker';
-import { readRegistry } from './registry';
+import { installPackages } from './installer';
 import { ILogger } from './logger';
+import { readRegistry } from './registry';
 
 const debounce = require('lodash.debounce');
 

@@ -3,18 +3,48 @@ import { IPackage } from './registry';
 
 const RegExEscape = (s: string) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
+export type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
 
-export function updateProjectFile(filePath: string, packages: PartialPackageInfo[]) {
-	const updatedFileContents = packages.reduce((acc: string, pkg) => {
-		const updated = updatePackagesConfigStyleReferences(acc, pkg);
-		return updatePackageReferenceStyleReferences(updated, pkg);
-	}, readFileSync(filePath, 'utf-8'));
+type PackageVersionData = Pick<IPackage, 'version' | 'assemblyVersion'>;
 
-	writeFileSync(filePath, updatedFileContents, 'utf-8');
+export enum ReferenceType {
+	PackagesConfig,
+	PackageReference,
 }
 
-function updatePackagesConfigStyleReferences(file: string, pkg: PartialPackageInfo) {
+export interface IProjectFileChange {
+	name: string;
+	type: ReferenceType;
+	previous: PackageVersionData;
+	updated: PackageVersionData;
+}
+
+export function updateProjectFile(
+	filePath: string,
+	packages: PartialPackageInfo[]
+): IProjectFileChange[] {
+	const { fileContents, changes } = packages.reduce(
+		({ fileContents, changes }, pkg) => {
+			const result =
+				updatePackagesConfigStyleReferences(fileContents, pkg) ||
+				updatePackageReferenceStyleReferences(fileContents, pkg);
+			return {
+				fileContents: (result && result.updated) || fileContents,
+				changes: (result && [...changes, result.change]) || changes,
+			};
+		},
+		{ fileContents: readFileSync(filePath, 'utf-8'), changes: [] as IProjectFileChange[] }
+	);
+
+	writeFileSync(filePath, fileContents, 'utf-8');
+
+	return changes;
+}
+
+function updatePackagesConfigStyleReferences(
+	file: string,
+	pkg: PartialPackageInfo
+): { updated: string; change: IProjectFileChange } | null {
 	const { name, version, assemblyVersion } = pkg;
 
 	const packageReferenceRegEx = new RegExp(
@@ -22,13 +52,13 @@ function updatePackagesConfigStyleReferences(file: string, pkg: PartialPackageIn
 	);
 	const referenceMatch = packageReferenceRegEx.exec(file);
 	if (!referenceMatch || !referenceMatch[0] || !referenceMatch[1]) {
-		return file;
+		return null;
 	}
 
 	const hintPathRegEx = new RegExp(`<HintPath>.*${RegExEscape(name)}\.(.*?)\\lib`);
 	const hintPathMatch = hintPathRegEx.exec(file);
 	if (!hintPathMatch || !hintPathMatch[0] || !hintPathMatch[1]) {
-		return file;
+		return null;
 	}
 
 	const newReference = referenceMatch[0].replace(referenceMatch[1], assemblyVersion);
@@ -37,10 +67,21 @@ function updatePackagesConfigStyleReferences(file: string, pkg: PartialPackageIn
 		version
 	);
 
-	return file.replace(referenceMatch[0], newReference).replace(hintPathMatch[0], newHintPath);
+	return {
+		updated: file.replace(referenceMatch[0], newReference).replace(hintPathMatch[0], newHintPath),
+		change: {
+			name,
+			type: ReferenceType.PackageReference,
+			previous: { version: hintPathMatch[1], assemblyVersion: referenceMatch[1] },
+			updated: { version, assemblyVersion },
+		},
+	};
 }
 
-function updatePackageReferenceStyleReferences(file: string, pkg: PartialPackageInfo) {
+function updatePackageReferenceStyleReferences(
+	file: string,
+	pkg: PartialPackageInfo
+): { updated: string; change: IProjectFileChange } | null {
 	const { name, version } = pkg;
 
 	const packageReferenceRegEx = new RegExp(
@@ -48,16 +89,24 @@ function updatePackageReferenceStyleReferences(file: string, pkg: PartialPackage
 	);
 	const referenceMatch = packageReferenceRegEx.exec(file);
 	if (!referenceMatch || !referenceMatch[0] || !referenceMatch[1]) {
-		return file;
+		return null;
 	}
 
 	const versionRegEx = new RegExp(`<Version>(.*)?<\/Version>`);
 	const versionMatch = versionRegEx.exec(referenceMatch[1]);
 	if (!versionMatch || !versionMatch[0] || !versionMatch[1]) {
-		return file;
+		return null;
 	}
 
 	const newReference = referenceMatch[0].replace(versionMatch[1], version);
 
-	return file.replace(referenceMatch[0], newReference);
+	return {
+		updated: file.replace(referenceMatch[0], newReference),
+		change: {
+			name,
+			type: ReferenceType.PackageReference,
+			previous: { version: versionMatch[1], assemblyVersion: '' },
+			updated: { version, assemblyVersion: '' },
+		},
+	};
 }

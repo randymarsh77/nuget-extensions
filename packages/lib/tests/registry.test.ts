@@ -1,12 +1,11 @@
 import * as path from 'path';
-import * as rimraf from 'rimraf';
-import * as uuid from 'uuid';
 import {
 	readRegistry,
 	registerPackages,
 	unregisterPackagesInDirectory,
 	unregisterPackagesMatchingPattern,
 } from '../src/registry';
+import { withTestEnvironment } from './environment';
 
 const testRegistry = require('./data/testRegistry.json');
 Object.keys(testRegistry).forEach(k => {
@@ -20,11 +19,11 @@ Object.keys(testRegistryPartial).forEach(k => {
 
 describe('Registry Tests', () => {
 	it('Reads an empty registry', () => {
-		withRegistry(() => expect(readRegistry()).toEqual({}));
+		withTestEnvironment(() => expect(readRegistry()).toEqual({}));
 	});
 
 	it('Can register packages in a directory', () => {
-		withRegistry(() => {
+		withTestEnvironment(() => {
 			expect(readRegistry()).toEqual({});
 			registerPackages(path.join(process.cwd(), 'tests', 'data', 'packages'), {});
 			expect(readRegistry()).toEqual(testRegistry);
@@ -32,7 +31,7 @@ describe('Registry Tests', () => {
 	});
 
 	it('Can unregister packages in a directory', () => {
-		withRegistry(() => {
+		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
 			registerPackages(directory, {});
@@ -43,7 +42,7 @@ describe('Registry Tests', () => {
 	});
 
 	it('Can unregister packages matching a pattern (partial)', () => {
-		withRegistry(() => {
+		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
 			registerPackages(directory, {});
@@ -54,7 +53,7 @@ describe('Registry Tests', () => {
 	});
 
 	it('Can unregister packages matching a pattern (all)', () => {
-		withRegistry(() => {
+		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
 			registerPackages(directory, {});
@@ -64,12 +63,3 @@ describe('Registry Tests', () => {
 		});
 	});
 });
-
-function withRegistry(action: () => void) {
-	const previous = process.env.NUGEX_DIR;
-	const testEnv = path.join(process.cwd(), 'tests', 'data', uuid.v1());
-	process.env.NUGEX_DIR = testEnv;
-	action();
-	process.env.NUGEX_DIR = previous;
-	rimraf.sync(testEnv);
-}

@@ -10,7 +10,7 @@ export function parseSolution(path: string): IProjectInfo[] {
 
 	const projects: IProjectInfo[] = [];
 
-	const nextProjectExp = new RegExp(/Project\(.*?=(.*?)EndProject/gms);
+	const nextProjectExp = new RegExp(/Project\([^]*?=([^]*?)EndProject/gm);
 	let match;
 	do {
 		match = nextProjectExp.exec(solution);
