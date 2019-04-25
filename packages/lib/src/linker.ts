@@ -125,7 +125,7 @@ export function unlink(targets: IUnlinkTarget[]) {
 							  }
 							: { packages, newProjectLinks };
 					},
-					{ packages: [] as PartialPackageInfo[], newProjectLinks: [] as IProjectFileChange[] }
+					{ packages: [] as PartialPackageInfo[], newProjectLinks: projectLinks }
 				);
 				updateProjectFile(project, packages);
 				links[project] = newProjectLinks;
