@@ -62,17 +62,15 @@ function updatePackagesConfigStyleReferences(
 	}
 
 	const newReference = referenceMatch[0].replace(referenceMatch[1], assemblyVersion);
-	const newHintPath = hintPathMatch[0].replace(
-		hintPathMatch[1].replace('\\', '').replace('/', ''),
-		version
-	);
+	const hintPathVersion = hintPathMatch[1].replace('\\', '').replace('/', '');
+	const newHintPath = hintPathMatch[0].replace(hintPathVersion, version);
 
 	return {
 		updated: file.replace(referenceMatch[0], newReference).replace(hintPathMatch[0], newHintPath),
 		change: {
 			name,
 			type: ReferenceType.PackageReference,
-			previous: { version: hintPathMatch[1], assemblyVersion: referenceMatch[1] },
+			previous: { version: hintPathVersion, assemblyVersion: referenceMatch[1] },
 			updated: { version, assemblyVersion },
 		},
 	};
