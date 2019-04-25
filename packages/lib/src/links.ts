@@ -32,7 +32,7 @@ export function writeLinks(links: ILinks) {
 }
 
 export function mergeLinks(a: ILinks, b: ILinks): ILinks {
-	return mergeWith(a, b, (arr1, arr2) => arr1.concat(arr2));
+	return mergeWith(a, b, (arr1, arr2) => (arr1 || []).concat(arr2 || []));
 }
 
 export function pruneLinks(links: ILinks): ILinks {
