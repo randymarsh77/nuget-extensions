@@ -20,7 +20,9 @@
 	"main": "./out/extension.js",
 	"activationEvents": [
 		"onCommand:extension.nugex.register",
+		"onCommand:extension.nugex.unregister",
 		"onCommand:extension.nugex.link",
+		"onCommand:extension.nugex.unlink",
 		"onCommand:extension.nugex.list",
 		"onCommand:extension.nugex.startWatchTask",
 		"onCommand:extension.nugex.stopWatchTask"
@@ -32,8 +34,16 @@
 				"title": "Register NuGet packages"
 			},
 			{
+				"command": "extension.nugex.unregister",
+				"title": "Unregister NuGet packages"
+			},
+			{
 				"command": "extension.nugex.link",
 				"title": "Link to NuGet packages"
+			},
+			{
+				"command": "extension.nugex.unlink",
+				"title": "Unlink NuGet packages"
 			},
 			{
 				"command": "extension.nugex.list",
