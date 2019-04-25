@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as home from 'user-home';
+import home from 'user-home';
 import mergeWith from 'lodash.mergewith';
 import { IProjectFileChange } from './csproj';
 
