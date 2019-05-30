@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import shell from 'shelljs';
 import home from 'user-home';
 import { ILogger } from './logger';
 
@@ -9,12 +10,21 @@ function resolveEnvironment() {
 	return { registryPath, nugexDataDir };
 }
 
+interface INuGetPackageInfoTarget {
+	assemblyVersion: string;
+	framework: string;
+}
+
+interface INuGetPackageInfo {
+	targets: INuGetPackageInfoTarget[];
+}
+
 export interface IPackage {
 	name: string;
 	version: string;
-	assemblyVersion: string;
 	extension: string;
 	directory: string;
+	targets: INuGetPackageInfoTarget[];
 }
 
 export interface IRegistry {
@@ -54,32 +64,49 @@ function parsePackage(pkg: string): Pick<IPackage, 'name' | 'version' | 'extensi
 	};
 }
 
-export function registerPackages(directory: string, { logger }: { logger?: ILogger }) {
-	const log = (x: string) => logger && logger.log(x);
-	const registry = fs
-		.readdirSync(directory)
-		.filter(x => x.endsWith('.nupkg'))
-		.reduce((acc, v) => {
-			const parsed = parsePackage(v);
-			if (!parsed) {
-				return acc;
-			}
+export function registerPackagesInDirectory(directory: string, { logger }: { logger?: ILogger }) {
+	const files = fs.readdirSync(directory).filter(x => x.endsWith('.nupkg'));
+	return registerPackages(files, directory, { logger });
+}
 
-			if (acc[v]) {
-				log(`Registry entry exists for ${v}... skipping.`);
-			} else {
-				log(`Registering ${v}.`);
-				const { name, version, extension } = parsed;
-				acc[v] = {
-					name,
-					version,
-					assemblyVersion: '0.0.0.0', // TODO: Don't assume/force
-					extension,
-					directory,
-				};
-			}
+export function registerPackages(
+	files: string[],
+	directory: string,
+	{ logger }: { logger?: ILogger }
+) {
+	const log = (x: string) => logger && logger.log(x);
+	const registry = files.reduce((acc, v) => {
+		const parsed = parsePackage(v);
+		if (!parsed) {
 			return acc;
-		}, readRegistry());
+		}
+
+		if (acc[v]) {
+			log(`Registry entry exists for ${v}... skipping.`);
+		} else {
+			log(`Registering ${v}.`);
+
+			const packageInfoAppPath = path.join(
+				path.dirname(__filename),
+				'bin',
+				'NuGetPackageInfo',
+				'NuGetPackageInfo.dll'
+			);
+			const packagePath = path.join(directory, v);
+			const data = shell.exec(`dotnet ${packageInfoAppPath} ${packagePath}`);
+			const { targets } = JSON.parse(data) as INuGetPackageInfo;
+
+			const { name, version, extension } = parsed;
+			acc[v] = {
+				name,
+				version,
+				targets,
+				extension,
+				directory,
+			};
+		}
+		return acc;
+	}, readRegistry());
 	writeRegistry(registry);
 	log('Success!');
 }

@@ -6,7 +6,7 @@ import * as rimraf from 'rimraf';
 import { readRegistry, IPackage } from './registry';
 import { ILogger } from './logger';
 
-type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
+type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'targets'>;
 
 export function installPackages({
 	workingDirectory,
@@ -20,7 +20,7 @@ export function installPackages({
 	const log = (x: string) => logger && logger.log(x);
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
-		const { name, version, assemblyVersion, directory } = registry[pkg];
+		const { name, version, targets, directory } = registry[pkg];
 		const guessedPackagePath = path.join(
 			resolvePackagesDirectory(workingDirectory || process.cwd()),
 			`${name}.${version}`
@@ -71,7 +71,7 @@ export function installPackages({
 				);
 			}
 		}
-		return [{ name, version, assemblyVersion }, ...acc];
+		return [{ name, version, targets }, ...acc];
 	}, []);
 	return packages;
 }

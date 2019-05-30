@@ -3,9 +3,12 @@ import { IPackage } from './registry';
 
 const RegExEscape = (s: string) => s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-export type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'assemblyVersion'>;
+export type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'targets'>;
 
-type PackageVersionData = Pick<IPackage, 'version' | 'assemblyVersion'>;
+interface IPackageVersionData extends Pick<IPackage, 'version'> {
+	assemblyVersion?: string;
+	framework?: string;
+}
 
 export enum ReferenceType {
 	PackagesConfig,
@@ -15,8 +18,8 @@ export enum ReferenceType {
 export interface IProjectFileChange {
 	name: string;
 	type: ReferenceType;
-	previous: PackageVersionData;
-	updated: PackageVersionData;
+	previous: IPackageVersionData;
+	updated: IPackageVersionData;
 }
 
 export function updateProjectFile(
@@ -45,7 +48,7 @@ function updatePackagesConfigStyleReferences(
 	file: string,
 	pkg: PartialPackageInfo
 ): { updated: string; change: IProjectFileChange } | null {
-	const { name, version, assemblyVersion } = pkg;
+	const { name, version, targets } = pkg;
 
 	const packageReferenceRegEx = new RegExp(
 		`<Reference Include="${RegExEscape(name)},.*Version=(.*?),`
@@ -55,11 +58,13 @@ function updatePackagesConfigStyleReferences(
 		return null;
 	}
 
-	const hintPathRegEx = new RegExp(`<HintPath>.*${RegExEscape(name)}\.(.*?)\\lib`);
+	const hintPathRegEx = new RegExp(`<HintPath>.*${RegExEscape(name)}\.(.*?)\\lib\\(.*?)\\`);
 	const hintPathMatch = hintPathRegEx.exec(file);
-	if (!hintPathMatch || !hintPathMatch[0] || !hintPathMatch[1]) {
+	if (!hintPathMatch || !hintPathMatch[0] || !hintPathMatch[1] || !hintPathMatch[2]) {
 		return null;
 	}
+
+	const { assemblyVersion, framework } = targets[0]; // TODO: Uh, figure out the actual match.
 
 	const newReference = referenceMatch[0].replace(referenceMatch[1], assemblyVersion);
 	const hintPathVersion = hintPathMatch[1].replace('\\', '').replace('/', '');
@@ -70,8 +75,12 @@ function updatePackagesConfigStyleReferences(
 		change: {
 			name,
 			type: ReferenceType.PackageReference,
-			previous: { version: hintPathVersion, assemblyVersion: referenceMatch[1] },
-			updated: { version, assemblyVersion },
+			previous: {
+				version: hintPathVersion,
+				assemblyVersion: referenceMatch[1],
+				framework: hintPathMatch[2],
+			},
+			updated: { version, assemblyVersion, framework },
 		},
 	};
 }

@@ -117,10 +117,18 @@ export function unlink(targets: IUnlinkTarget[]) {
 			if (projectLinks) {
 				const { packages, newProjectLinks } = projectLinks.reduce(
 					({ packages, newProjectLinks }, { name, previous }) => {
-						const { version, assemblyVersion } = previous;
+						const { version, assemblyVersion, framework } = previous;
 						return matchesPattern(name, pattern)
 							? {
-									packages: [...packages, { name, version, assemblyVersion }],
+									packages: [
+										...packages,
+										{
+											name,
+											version,
+											targets:
+												(assemblyVersion && framework && [{ assemblyVersion, framework }]) || [],
+										},
+									],
 									newProjectLinks: newProjectLinks.filter(x => x.name !== name),
 							  }
 							: { packages, newProjectLinks };
