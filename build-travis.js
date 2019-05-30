@@ -6,10 +6,14 @@ const packages = ['packages/lib', 'packages/cli', 'packages/vscode'];
 
 packages.reduce((_, package) => {
 	const execYarn = args => {
-		shell.exec(`yarn ${args.join(' ')}`, {
+		const { code } = shell.exec(`yarn ${args.join(' ')}`, {
 			cwd: path.join(process.cwd(), package),
 			stdio: [process.stdin, process.stdout, process.stderr],
 		});
+		if (code !== 0) {
+			console.error('Failing build due to last error.');
+			process.exit(1);
+		}
 	};
 
 	console.log(`\nBuilding ${package}\n`);
