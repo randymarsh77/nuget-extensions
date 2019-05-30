@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {
 	readRegistry,
-	registerPackages,
+	registerPackagesInDirectory,
 	unregisterPackagesInDirectory,
 	unregisterPackagesMatchingPattern,
 } from '../src/registry';
@@ -25,7 +25,7 @@ describe('Registry Tests', () => {
 	it('Can register packages in a directory', () => {
 		withTestEnvironment(() => {
 			expect(readRegistry()).toEqual({});
-			registerPackages(path.join(process.cwd(), 'tests', 'data', 'packages'), {});
+			registerPackagesInDirectory(path.join(process.cwd(), 'tests', 'data', 'packages'), {});
 			expect(readRegistry()).toEqual(testRegistry);
 		});
 	});
@@ -34,7 +34,7 @@ describe('Registry Tests', () => {
 		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
-			registerPackages(directory, {});
+			registerPackagesInDirectory(directory, {});
 			expect(readRegistry()).toEqual(testRegistry);
 			unregisterPackagesInDirectory(directory, {});
 			expect(readRegistry()).toEqual({});
@@ -45,7 +45,7 @@ describe('Registry Tests', () => {
 		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
-			registerPackages(directory, {});
+			registerPackagesInDirectory(directory, {});
 			expect(readRegistry()).toEqual(testRegistry);
 			unregisterPackagesMatchingPattern('NugEx.Tests.*', {});
 			expect(readRegistry()).toEqual(testRegistryPartial);
@@ -56,7 +56,7 @@ describe('Registry Tests', () => {
 		withTestEnvironment(() => {
 			const directory = path.join(process.cwd(), 'tests', 'data', 'packages');
 			expect(readRegistry()).toEqual({});
-			registerPackages(directory, {});
+			registerPackagesInDirectory(directory, {});
 			expect(readRegistry()).toEqual(testRegistry);
 			unregisterPackagesMatchingPattern('NugEx.*', {});
 			expect(readRegistry()).toEqual({});

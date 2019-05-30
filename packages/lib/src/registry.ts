@@ -87,8 +87,7 @@ export function registerPackages(
 			log(`Registering ${v}.`);
 
 			const packageInfoAppPath = path.join(
-				path.dirname(__filename),
-				'bin',
+				resolveBinPath(),
 				'NuGetPackageInfo',
 				'NuGetPackageInfo.dll'
 			);
@@ -148,4 +147,23 @@ function matchesPattern(name: string, pattern: string): boolean {
 	}
 
 	return name.indexOf(pattern.substring(0, pattern.length - 1)) !== -1;
+}
+
+function resolveBinPath() {
+	const releaseModePath = path.join(path.dirname(__filename), 'bin');
+	if (fs.existsSync(releaseModePath)) {
+		return releaseModePath;
+	}
+
+	const basePath = path.join(
+		__filename.substring(0, __filename.indexOf('nuget-extensions')),
+		'nuget-extensions'
+	);
+	const files = fs.readdirSync(basePath);
+	if (files.some(x => x === 'packages')) {
+		// Running from tests
+		return path.join(basePath, 'packages', 'lib', 'out', 'bin');
+	}
+
+	return '';
 }
