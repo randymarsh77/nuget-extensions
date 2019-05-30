@@ -1,4 +1,4 @@
-const { execFileSync } = require('child_process');
+const shell = require('shelljs');
 const path = require('path');
 const process = require('process');
 
@@ -6,7 +6,7 @@ const packages = ['packages/lib', 'packages/cli', 'packages/vscode'];
 
 packages.reduce((_, package) => {
 	const execYarn = args => {
-		execFileSync('yarn', args, {
+		shell.exec(`yarn ${args.join(' ')}`, {
 			cwd: path.join(process.cwd(), package),
 			stdio: [process.stdin, process.stdout, process.stderr],
 		});
