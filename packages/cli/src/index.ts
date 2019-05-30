@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 
 import * as yargs from 'yargs';
-import { link, registerPackages, readRegistry, writeRegistry, watch } from 'nuget-extensions-lib';
+import {
+	link,
+	registerPackagesInDirectory,
+	readRegistry,
+	writeRegistry,
+	watch,
+} from 'nuget-extensions-lib';
 
 /* tslint:disable:no-console */
 const logger = {
@@ -25,7 +31,7 @@ const _ = yargs
 			if (argv.projects) {
 				link(argv.projects.split(','), { logger });
 			} else {
-				registerPackages(process.cwd(), { logger });
+				registerPackagesInDirectory(process.cwd(), { logger });
 			}
 		}
 	)

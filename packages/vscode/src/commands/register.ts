@@ -1,11 +1,11 @@
 import * as vscode from 'vscode';
-import { registerPackages, ILogger } from 'nuget-extensions-lib';
+import { registerPackagesInDirectory, ILogger } from 'nuget-extensions-lib';
 import { findRegisterTargets, RegisterTarget, RegisterTargetKind } from './register-utility';
 
 export async function executeRegisterCommand(logger: ILogger) {
 	const target = await pickRegisterTarget();
 	if (target && target.kind === RegisterTargetKind.Directory) {
-		registerPackages(target.directory, { logger });
+		registerPackagesInDirectory(target.directory, { logger });
 		vscode.window.showInformationMessage(`Registered all packages in ${target.directory}`);
 	} else if (target) {
 		vscode.window.showInformationMessage('Only directories are supported at this time.');
