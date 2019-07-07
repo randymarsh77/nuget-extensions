@@ -1,9 +1,14 @@
 {
-	"NugEx.TestPackage.0.0.0-Debug.nupkg": {
+	"NugEx.TestPackage.1.0.0-Debug.nupkg": {
 		"name": "NugEx.TestPackage",
-		"version": "0.0.0-Debug",
-		"assemblyVersion": "0.0.0.0",
+		"version": "1.0.0-Debug",
 		"extension": "nupkg",
-		"directory": "packages"
+		"directory": "packages",
+		"targets": [
+			{
+				"assemblyVersion": "1.0.0.0",
+				"framework": "netcoreapp2.1"
+			}
+		]
 	}
 }

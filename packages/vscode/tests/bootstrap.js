@@ -1,5 +1,5 @@
 #!/usr/local/bin/node
-const { execFileSync } = require('child_process');
+const shell = require('shelljs');
 const path = require('path');
 const process = require('process');
 
@@ -9,10 +9,10 @@ console.log(
 );
 
 const projectsPath = path.join(process.cwd(), 'projects');
-const manifest = ['https://github.com/Faithlife/FaithlifeAnalyzers.git'];
+const manifest = ['https://github.com/Faithlife/FaithlifeUtility.git'];
 
 manifest.reduce((acc, v) => {
-	execFileSync('git', ['clone', v], {
+	shell.exec(`git clone ${v}`, {
 		cwd: projectsPath,
 	});
 	return acc;

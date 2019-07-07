@@ -17,6 +17,7 @@ namespace NuGetPackageInfo
 			var info = new InfoDto();
 
 			var zipPath = args[0];
+			var filee = new FileInfo(zipPath).Directory.GetFiles();
 			var extractPath = Path.Combine(Path.GetTempPath(), nameof(NuGetPackageInfo), Guid.NewGuid().ToString());
 
 			ZipFile.ExtractToDirectory(zipPath, extractPath);
@@ -50,7 +51,14 @@ namespace NuGetPackageInfo
 
 			info.Targets = targets;
 
-			Directory.Delete(extractPath, true);
+			try
+			{
+				Directory.Delete(extractPath, true);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// TODO: Why are the files still locked?
+			}
 
 			Console.WriteLine(JsonConvert.SerializeObject(info, JsonSettings));
 		}

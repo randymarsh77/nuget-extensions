@@ -19,7 +19,7 @@
 		"lint": "tslint -p ./",
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile && node embed-binaries.js",
-		"test": "yarn jest"
+		"test": "node prepare-test-data.js && yarn jest"
 	},
 	"dependencies": {
 		"lodash.debounce": "^4.0.8",

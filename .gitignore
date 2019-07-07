@@ -1,3 +1,8 @@
 node_modules
+yarn-error.log
+**/.vs
+**/bin
+**/obj
 **/out/**/*
 **/coverage/**/*
+packages/lib/tests/data/packages
