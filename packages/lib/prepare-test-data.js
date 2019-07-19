@@ -1,7 +1,7 @@
 const path = require('path');
 const shell = require('shelljs');
 
-const solutionDirectory = path.join('tests', 'data', 'TestData');
+const solutionDirectory = path.join(__dirname, 'tests', 'data', 'TestData');
 
 shell.exec(
 	`dotnet pack ${path.join(
