@@ -1,10 +1,10 @@
-import { execFileSync } from 'child_process';
 import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 import { readRegistry, IPackage } from './registry';
 import { ILogger } from './logger';
+import { requireTool, ExecToolFunction } from './shell-utility';
 
 type PartialPackageInfo = Pick<IPackage, 'name' | 'version' | 'targets'>;
 
@@ -17,12 +17,13 @@ export function installPackages({
 	shortCircuitBuild?: string;
 	logger?: ILogger;
 } = {}) {
+	const execNuget = requireTool('nuget');
 	const log = (x: string) => logger && logger.log(x);
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, targets, directory } = registry[pkg];
 		const guessedPackagePath = path.join(
-			resolvePackagesDirectory(workingDirectory || process.cwd()),
+			resolvePackagesDirectory(execNuget, workingDirectory || process.cwd()),
 			`${name}.${version}`
 		);
 		log(`Guessed path: ${guessedPackagePath}`);
@@ -32,7 +33,7 @@ export function installPackages({
 		}
 
 		log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
-		execFileSync('nuget', ['install', name, '-Version', version, '-Source', directory], {
+		execNuget(`install ${name} -Version ${version} -Source ${directory}`, {
 			cwd: workingDirectory,
 		});
 
@@ -41,15 +42,13 @@ export function installPackages({
 			.createHash('md5')
 			.update(directory)
 			.digest('hex');
-		const keyExists =
-			execFileSync('nuget', ['sources', 'list'], {
-				cwd: workingDirectory,
-			})
-				.toString()
-				.indexOf(sourceKey) !== -1;
+		const { stdout: sourceList } = execNuget(`sources list`, {
+			cwd: workingDirectory,
+		});
+		const keyExists = sourceList.indexOf(sourceKey) !== -1;
 		const operation = keyExists ? 'update' : 'add';
 		log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
-		execFileSync('nuget', ['sources', operation, '-Name', sourceKey, '-Source', directory], {
+		execNuget(`sources ${operation} -Name ${sourceKey} -Source ${directory}`, {
 			cwd: workingDirectory,
 		});
 
@@ -76,7 +75,7 @@ export function installPackages({
 	return packages;
 }
 
-function resolvePackagesDirectory(fromDirectory: string) {
+function resolvePackagesDirectory(execNuget: ExecToolFunction, fromDirectory: string) {
 	let foundConfigDirectory = false;
 	let keepSearching = true;
 	let currentDirectory = fromDirectory;
@@ -91,9 +90,9 @@ function resolvePackagesDirectory(fromDirectory: string) {
 			}
 		}
 	}
-	const relativeLocation =
-		execFileSync('nuget', ['config', 'repositoryPath'], { cwd: fromDirectory })
-			.toString()
-			.trim() || 'packages';
+	const { stdout: configRepoPath } = execNuget(`config repositoryPath`, {
+		cwd: fromDirectory,
+	});
+	const relativeLocation = configRepoPath.trim() || 'packages';
 	return path.join(foundConfigDirectory ? currentDirectory : fromDirectory, relativeLocation);
 }
