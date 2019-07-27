@@ -17,7 +17,6 @@ namespace NuGetPackageInfo
 			var info = new InfoDto();
 
 			var zipPath = args[0];
-			var filee = new FileInfo(zipPath).Directory.GetFiles();
 			var extractPath = Path.Combine(Path.GetTempPath(), nameof(NuGetPackageInfo), Guid.NewGuid().ToString());
 
 			ZipFile.ExtractToDirectory(zipPath, extractPath);
