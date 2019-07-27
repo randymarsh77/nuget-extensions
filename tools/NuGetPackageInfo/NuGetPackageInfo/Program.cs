@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using Faithlife.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -65,8 +65,8 @@ namespace NuGetPackageInfo
 
 		private static string ReadAssemblyVersion(string dllPath)
 		{
-			var assembly = Assembly.LoadFrom(dllPath);
-			return assembly.GetName().Version.ToString();
+			var info = FileVersionInfo.GetVersionInfo(dllPath);
+			return info.FileVersion;
 		}
 
 		private sealed class InfoDto
