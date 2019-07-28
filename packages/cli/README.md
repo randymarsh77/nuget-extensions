@@ -10,13 +10,11 @@ You might also try the [VSCode extension](https://marketplace.visualstudio.com/i
 
 ### Status
 
-Initial Alpha version. Very limited options. See [issues](https://github.com/randymarsh77/nuget-extensions/issues) for specifics.
+Alpha version, approaching MVP. See [issues](https://github.com/randymarsh77/nuget-extensions/issues) for specifics.
 
 ### Usage
 
 - Build a version of your NuGet packages, probably Debug with symbols included.
-- The NuGet version can be anything (`0.0.0-debug`, for example).
-- The assembly version must be `0.0.0.0` (current limitation).
 - Run `nuget-extensions link` in the output directory where the `.nupkg` files are located.
 - Run `nuget-extensions link MyProject.csproj,path/to/MyOtherProject.csproj` in a directory where `nuget install` would otherwise install the package to.
 - Run `nuget-extensions watch --short-circuit-build some/output/path` in the same (^) directory where `some/output/path` is where your executable will load the dll from.

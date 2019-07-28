@@ -8,6 +8,12 @@
 
 This is a monorepo for NuGet Extensions and contains the following packages:
 
+[VSCode](packages/vscode/README.md)
+
+[![version](https://img.shields.io/github/tag/randymarsh77/nuget-extensions.svg)]()
+[![installs](https://img.shields.io/visual-studio-marketplace/i/randymarsh77.nuget-extensions-vscode.svg)]()
+[![downloads](https://img.shields.io/visual-studio-marketplace/d/randymarsh77.nuget-extensions-vscode.svg)]()
+
 [Lib](packages/lib/README.md)
 
 [![NPM](https://img.shields.io/npm/v/nuget-extensions-lib.svg)]()
@@ -18,25 +24,53 @@ This is a monorepo for NuGet Extensions and contains the following packages:
 [![NPM](https://img.shields.io/npm/v/nuget-extensions.svg)]()
 [![downloads](https://img.shields.io/npm/dt/nuget-extensions.svg)]()
 
-[VSCode](packages/vscode/README.md)
-
-[![version](https://img.shields.io/github/tag/randymarsh77/nuget-extensions.svg)]()
-[![installs](https://img.shields.io/visual-studio-marketplace/i/randymarsh77.nuget-extensions-vscode.svg)]()
-[![downloads](https://img.shields.io/visual-studio-marketplace/d/randymarsh77.nuget-extensions-vscode.svg)]()
-
 ### Status
 
-Initial Alpha version. Very limited options. See [issues](https://github.com/randymarsh77/nuget-extensions/issues) for specifics.
+Alpha version, approaching MVP. See [issues](https://github.com/randymarsh77/nuget-extensions/issues) for specifics.
 
-### Usage
+### What and Why
 
-- Build a version of your NuGet packages, probably Debug with symbols included.
-- The NuGet version can be anything (`0.0.0-debug`, for example).
-- The assembly version must be `0.0.0.0` (current limitation).
-- Run `nuget-extensions link` in the output directory where the `.nupkg` files are located. Or, use the VSCode extension `Register` command.
-- Run `nuget-extensions link MyProject.csproj,path/to/MyOtherProject.csproj` in a directory where `nuget install` would otherwise install the package to. Or, use the VSCode `Link` command.
-- Run `nuget-extensions watch --short-circuit-build some/output/path` in the same (^) directory where `some/output/path` is where your executable will load the dll from. Or, use the VSCode `Watch` command.
-- Build and debug your projects.
+This is primarily `npm link` for the C# ecosystem. One thing that the JS community got right with package development was enabling a simple mechanism to develop both a consuming and dependent package in context. .NET development in regards to package management tooling has lagged behind JS equivalents, but has also come a long way in recent history. .NET Core brings significant improvements to the PM systems, along with new innovations, like SourceLink. Today, it is still a challenge to develop multiple projects simultaneously when the dependencies are consumed via NuGet; especially when the projects are a mix of .NET Core, full .NET, `packages.config`, and `PackageReference`. This project aims to provide a layer of additional tooling to act as a shim while the native .NET PM system gains ground.
+
+### Goals
+
+Currently, in order to iterate on a package dependency in the context of it's consumer you may need to do one or all of the following:
+
+- Alter the build/package process in order to generate a package or .dll that can be used in a development environment.
+- Alter the consumer project file to specify a different version, location, or style of reference (for every project).
+- Alter the consumer environment to pull/install/get your locally built package.
+- Manually copy/move files and clear any number of package caches.
+
+The goal of this project is to eliminate the manual parts of this process in a generic way, so you, as a developer, don't need to jump through these hoops, which can be quite tedious. The approach is one that works within the confines of the system, in a way that can be automated, controlled, and switched on and off without effort or time.
+
+### Usage Strategy
+
+The [VSCode](packages/vscode/README.md) extension is available to provide a simple UI and built-in commands to perform the required steps. The [CLI](packages/cli/README.md) is available for easy automation of these steps, if desired.
+
+The basic idea is:
+
+- Build the dependent package. Include symbols and build in Debug if debugging is desired.
+- `Register` the package. The VSCode extension will detect any NuGet packages in the workspace, and prompt. This step adds an entry into a central repository for what packages are available.
+- `Link` to the registered package. The VSCode extension will prompt for a solution or csproj file as input, and cross-check the references against the available packages.
+- Build the consumer. You're done.
+
+Furthermore:
+
+- `Watch` is available to watch for package changes (when you rebuild the dependent package), and will ensure that the latest build is always available to your consumer. If desired, `Watch` can also be configured so that a rebuild of the consumer is not required.
+
+To clean up:
+
+- `Unlink` is available.
+- `Unregister` is available.
+- `Stop watching` is available.
+
+### Specifics
+
+See the specific project's readme for specifics.
+
+[VSCode](packages/vscode/README.md)
+[CLI](packages/cli/README.md)
+[Lib](packages/lib/README.md)
 
 ### License
 
