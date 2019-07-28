@@ -79,8 +79,20 @@ function getWatchConfiguration() {
 
 const watchStateKey = 'nugex.state.watch';
 
-function getWatchState(context: vscode.ExtensionContext): IWatchState {
-	return context.workspaceState.get(watchStateKey) as IWatchState;
+function getWatchState(context: vscode.ExtensionContext): IWatchState | null {
+	const { watchers, channel } = (context.workspaceState.get(watchStateKey) as IWatchState) || {
+		watchers: [],
+		channel: {},
+	};
+	const validWatchers = (watchers || []).filter(x => x.close);
+	const channelIsValid = channel && channel.hide;
+
+	return validWatchers.length !== 0 && channelIsValid
+		? {
+				watchers: validWatchers,
+				channel,
+		  }
+		: null;
 }
 
 function updateWatchState(context: vscode.ExtensionContext, state: IWatchState | null) {
