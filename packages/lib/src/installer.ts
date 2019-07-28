@@ -1,5 +1,6 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 import { readRegistry, IPackage } from './registry';
@@ -22,20 +23,51 @@ export function installPackages({
 	const registry = readRegistry();
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, targets, directory } = registry[pkg];
-		const guessedPackagePath = path.join(
-			resolvePackagesDirectory(execNuget, workingDirectory || process.cwd()),
-			`${name}.${version}`
+
+		const localPackagesDirectory = resolveLocalPackagesDirectory(
+			execNuget,
+			workingDirectory || process.cwd()
 		);
-		log(`Guessed path: ${guessedPackagePath}`);
-		if (fs.existsSync(guessedPackagePath)) {
-			log(`Removing existing package at: ${guessedPackagePath}`);
-			rimraf.sync(guessedPackagePath);
+		const guessedLocalPackagePath = path.join(localPackagesDirectory, `${name}.${version}`);
+		log(`Guessed local path: ${guessedLocalPackagePath}`);
+		if (fs.existsSync(guessedLocalPackagePath)) {
+			log(`Removing existing package at: ${guessedLocalPackagePath}`);
+			rimraf.sync(guessedLocalPackagePath);
 		}
 
-		log(`Exec: nuget install ${name} -Version ${version} -Source ${directory}`);
-		execNuget(`install ${name} -Version ${version} -Source ${directory}`, {
+		const globalPackagesDirectory = path.join(os.homedir(), '.nuget', 'packages');
+		const guessedGlobalPackagePath = path.join(
+			globalPackagesDirectory,
+			name.toLowerCase(),
+			version.toLowerCase()
+		);
+		if (fs.existsSync(guessedGlobalPackagePath)) {
+			log(`Removing existing package at: ${guessedGlobalPackagePath}`);
+			rimraf.sync(guessedGlobalPackagePath);
+		}
+
+		const globalPackageLocation = path.join(globalPackagesDirectory, name.toLowerCase());
+		const installGlobalCommand = `install ${name} -Version ${version} -Source ${directory} -OutputDirectory ${globalPackageLocation}`;
+		log(`Installing package to global package directory.`);
+		const existingFiles = fs.readdirSync(globalPackageLocation);
+		log(`Exec: nuget ${installGlobalCommand}`);
+		execNuget(installGlobalCommand, {
 			cwd: workingDirectory,
 		});
+		fs.renameSync(path.join(globalPackageLocation, `${name}.${version}`), guessedGlobalPackagePath);
+		fs.readdirSync(globalPackageLocation).forEach(file => {
+			if (file !== version.toLowerCase() && existingFiles.indexOf(file) < 0) {
+				rimraf.sync(path.join(globalPackageLocation, file));
+			}
+		});
+
+		if (fs.existsSync(localPackagesDirectory)) {
+			const installLocalCommand = `install ${name} -Version ${version} -Source ${directory} -OutputDirectory ${localPackagesDirectory}`;
+			log(`Exec: nuget ${installLocalCommand}`);
+			execNuget(installLocalCommand, {
+				cwd: workingDirectory,
+			});
+		}
 
 		log('Verifying package sources...');
 		const sourceKey = crypto
@@ -52,8 +84,15 @@ export function installPackages({
 			cwd: workingDirectory,
 		});
 
-		if (shortCircuitBuild && fs.existsSync(shortCircuitBuild)) {
-			const lib = path.join(guessedPackagePath, 'lib');
+		const preferredShortCircuitPath = fs.existsSync(guessedLocalPackagePath)
+			? guessedLocalPackagePath
+			: guessedGlobalPackagePath;
+		if (
+			shortCircuitBuild &&
+			fs.existsSync(shortCircuitBuild) &&
+			fs.existsSync(preferredShortCircuitPath)
+		) {
+			const lib = path.join(preferredShortCircuitPath, 'lib');
 			const availableTargets = fs.existsSync(lib) ? fs.readdirSync(lib) : [];
 			if (availableTargets && availableTargets.length !== 0) {
 				const target = availableTargets[0];
@@ -75,7 +114,7 @@ export function installPackages({
 	return packages;
 }
 
-function resolvePackagesDirectory(execNuget: ExecToolFunction, fromDirectory: string) {
+function resolveLocalPackagesDirectory(execNuget: ExecToolFunction, fromDirectory: string) {
 	let foundConfigDirectory = false;
 	let keepSearching = true;
 	let currentDirectory = fromDirectory;
