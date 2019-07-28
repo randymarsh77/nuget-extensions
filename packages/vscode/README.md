@@ -13,6 +13,7 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 - Support for Windows
 - Support for PackageReference
 - Removed limitations on package version and targets
+- Support registering single packages instead of just entire directories
 
 ## Features and Usage
 

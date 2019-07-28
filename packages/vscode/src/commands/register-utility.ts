@@ -61,8 +61,8 @@ function resourcesToRegisterTargets(resources: vscode.Uri[]): RegisterTarget[] {
 			if (!directories.has(directory)) {
 				directories.add(directory);
 				targets.push({
-					label: directory,
-					description: vscode.workspace.asRelativePath(path.dirname(resource.fsPath)),
+					label: vscode.workspace.asRelativePath(path.dirname(resource.fsPath)),
+					description: resource.fsPath,
 					target: resource.fsPath,
 					directory: path.dirname(resource.fsPath),
 					kind: RegisterTargetKind.Directory,
@@ -71,7 +71,7 @@ function resourcesToRegisterTargets(resources: vscode.Uri[]): RegisterTarget[] {
 
 			targets.push({
 				label: path.basename(resource.fsPath),
-				description: vscode.workspace.asRelativePath(path.dirname(resource.fsPath)),
+				description: resource.fsPath,
 				target: resource.fsPath,
 				directory: path.dirname(resource.fsPath),
 				kind: RegisterTargetKind.Package,
@@ -79,5 +79,15 @@ function resourcesToRegisterTargets(resources: vscode.Uri[]): RegisterTarget[] {
 		});
 	});
 
-	return targets.sort((a, b) => a.directory.localeCompare(b.directory));
+	return targets.sort(sortTargets);
+}
+
+function sortTargets(a: RegisterTarget, b: RegisterTarget): number {
+	if (a.kind !== b.kind) {
+		return a.kind === RegisterTargetKind.Package ? -1 : 1;
+	}
+
+	return a.kind === RegisterTargetKind.Package
+		? a.label.localeCompare(b.label)
+		: a.directory.localeCompare(b.directory);
 }
