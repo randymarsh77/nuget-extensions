@@ -1,6 +1,6 @@
 {
 	"name": "nuget-extensions",
-	"version": "0.0.5-alpha.0",
+	"version": "0.0.6-alpha.0",
 	"description": "Extensions for the NuGet CLI",
 	"main": "index.js",
 	"bin": {
