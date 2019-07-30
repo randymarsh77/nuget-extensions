@@ -985,10 +985,10 @@ now-and-later@^2.0.0:
   dependencies:
     once "^1.3.2"
 
-nuget-extensions-lib@^0.0.7-alpha.0:
-  version "0.0.7-alpha.0"
-  resolved "https://registry.yarnpkg.com/nuget-extensions-lib/-/nuget-extensions-lib-0.0.7-alpha.0.tgz#1ab27ea14d1fc055d8c85a6af4a9d26032c2dbaf"
-  integrity sha512-BY9r4vwBFWgxCRNFi0BxOWrRxS5gSB0z8shGuK+HX4scjvr79ZL55/sjNodXbtQZLrr+pqBLM2aOq+a37OqQfA==
+nuget-extensions-lib@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/nuget-extensions-lib/-/nuget-extensions-lib-0.0.7.tgz#ba08df648307ad1cffcef1ceef54a8200b53460d"
+  integrity sha512-cX475zZ/BQkInrdDXWi3+2Jo04K1R+XgWb/X9/bMad+ITmdB3Pja9669xsMhM/MACI3vJrJ+rmvVJO7B0HOerw==
   dependencies:
     lodash.debounce "^4.0.8"
     lodash.mergewith "^4.6.1"
