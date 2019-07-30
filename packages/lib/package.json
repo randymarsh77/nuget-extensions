@@ -12,7 +12,8 @@
 	"types": "out/index.d.ts",
 	"files": [
 		"out/**/*.js",
-		"out/**/*.d.ts"
+		"out/**/*.d.ts",
+		"out/bin"
 	],
 	"scripts": {
 		"clean": "rimraf out",
