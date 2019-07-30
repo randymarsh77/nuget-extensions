@@ -21,10 +21,12 @@ export function parseSolution(path: string): IProjectInfo[] {
 					.replace('"', '')
 					.trim()
 			);
-			projects.push({
-				name,
-				path,
-			});
+			if (path.endsWith('.csproj')) {
+				projects.push({
+					name,
+					path,
+				});
+			}
 		}
 	} while (match);
 
