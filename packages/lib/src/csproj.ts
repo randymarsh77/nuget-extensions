@@ -30,7 +30,8 @@ export function updateProjectFile(
 		({ fileContents, changes }, pkg) => {
 			const result =
 				updatePackagesConfigStyleReferences(fileContents, pkg) ||
-				updatePackageReferenceStyleReferences(fileContents, pkg);
+				updatePackageReferenceStyleReferences(fileContents, pkg) ||
+				updatePackageReferenceWithVersionAttributeStyleReferences(fileContents, pkg);
 			return {
 				fileContents: (result && result.updated) || fileContents,
 				changes: (result && [...changes, result.change]) || changes,
@@ -109,6 +110,33 @@ function updatePackageReferenceStyleReferences(
 
 	return {
 		updated: file.replace(referenceMatch[0], newReference),
+		change: {
+			name,
+			type: ReferenceType.PackageReference,
+			previous: { version: versionMatch[1], assemblyVersion: '' },
+			updated: { version, assemblyVersion: '' },
+		},
+	};
+}
+
+function updatePackageReferenceWithVersionAttributeStyleReferences(
+	file: string,
+	pkg: PartialPackageInfo
+): { updated: string; change: IProjectFileChange } | null {
+	const { name, version } = pkg;
+
+	const packageReferenceRegEx = new RegExp(
+		`<PackageReference.*?Include="${RegExEscape(name)}".*?Version="(.*)?".*?\/>`
+	);
+	const versionMatch = packageReferenceRegEx.exec(file);
+	if (!versionMatch || !versionMatch[0] || !versionMatch[1]) {
+		return null;
+	}
+
+	const newReference = versionMatch[0].replace(versionMatch[1], version);
+
+	return {
+		updated: file.replace(versionMatch[0], newReference),
 		change: {
 			name,
 			type: ReferenceType.PackageReference,
