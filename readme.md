@@ -10,7 +10,7 @@ This is a monorepo for NuGet Extensions and contains the following packages:
 
 [VSCode](packages/vscode/README.md)
 
-[![version](https://img.shields.io/github/tag/randymarsh77/nuget-extensions.svg)]()
+[![version](https://vsmarketplacebadge.apphb.com/version-short/randymarsh77.nuget-extensions-vscode.svg)]()
 [![installs](https://img.shields.io/visual-studio-marketplace/i/randymarsh77.nuget-extensions-vscode.svg)]()
 [![downloads](https://img.shields.io/visual-studio-marketplace/d/randymarsh77.nuget-extensions-vscode.svg)]()
 
