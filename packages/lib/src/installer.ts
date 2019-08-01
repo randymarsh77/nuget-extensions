@@ -61,7 +61,10 @@ export function installPackages({
 			}
 		});
 
-		if (fs.existsSync(localPackagesDirectory)) {
+		if (
+			fs.existsSync(localPackagesDirectory) &&
+			fs.readdirSync(localPackagesDirectory).some(x => x.startsWith(name))
+		) {
 			const installLocalCommand = `install ${name} -Version ${version} -Source ${directory} -OutputDirectory ${localPackagesDirectory}`;
 			log(`Exec: nuget ${installLocalCommand}`);
 			execNuget(installLocalCommand, {
