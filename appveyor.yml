@@ -10,6 +10,8 @@ environment:
 test_script:
   - node --version
   - npm --version
+  - npm install -g yarn
+  - yarn
   - node build-travis.js
 
 build: off
