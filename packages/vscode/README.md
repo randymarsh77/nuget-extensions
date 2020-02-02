@@ -10,6 +10,12 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ## Changelog
 
+### 0.0.12
+
+- Fixes for macOS Catalina and NuGet v5.x
+
+### 0.0.11
+
 - Support for Windows
 - Support for PackageReference
 - Removed limitations on package version and targets
