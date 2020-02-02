@@ -24,7 +24,7 @@ export function installPackages({
 	const packages = Object.keys(registry).reduce((acc: PartialPackageInfo[], pkg: string) => {
 		const { name, version, targets, directory } = registry[pkg];
 
-		const localPackagesDirectory = resolveLocalPackagesDirectory(
+		const { configLocation, localPackagesDirectory } = resolveConfigData(
 			execNuget,
 			workingDirectory || process.cwd()
 		);
@@ -83,9 +83,14 @@ export function installPackages({
 		const keyExists = sourceList.indexOf(sourceKey) !== -1;
 		const operation = keyExists ? 'update' : 'add';
 		log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
-		execNuget(`sources ${operation} -Name ${sourceKey} -Source ${directory}`, {
-			cwd: workingDirectory,
-		});
+		execNuget(
+			`sources ${operation} -Name ${sourceKey} -Source ${directory}${
+				configLocation ? ` -ConfigFile ${configLocation}` : ''
+			}`,
+			{
+				cwd: workingDirectory,
+			}
+		);
 
 		const preferredShortCircuitPath = fs.existsSync(guessedLocalPackagePath)
 			? guessedLocalPackagePath
@@ -117,7 +122,7 @@ export function installPackages({
 	return packages;
 }
 
-function resolveLocalPackagesDirectory(execNuget: ExecToolFunction, fromDirectory: string) {
+function resolveConfigData(execNuget: ExecToolFunction, fromDirectory: string) {
 	let foundConfigDirectory = false;
 	let keepSearching = true;
 	let currentDirectory = fromDirectory;
@@ -136,5 +141,11 @@ function resolveLocalPackagesDirectory(execNuget: ExecToolFunction, fromDirector
 		cwd: fromDirectory,
 	});
 	const relativeLocation = configRepoPath.trim() || 'packages';
-	return path.join(foundConfigDirectory ? currentDirectory : fromDirectory, relativeLocation);
+	return {
+		configLocation: foundConfigDirectory ? path.join(currentDirectory, 'nuget.config') : null,
+		localPackagesDirectory: path.join(
+			foundConfigDirectory ? currentDirectory : fromDirectory,
+			relativeLocation
+		),
+	};
 }
