@@ -12,6 +12,6 @@ test_script:
   - npm --version
   - npm install -g yarn
   - yarn
-  - node build-travis.js
+  - yarn test
 
 build: off

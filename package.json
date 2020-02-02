@@ -6,7 +6,7 @@
 		"packages/cli"
 	],
 	"scripts": {
-		"test": "node build-travis.js"
+		"test": "node build-ci.js"
 	},
 	"devDependencies": {
 		"@types/jest": "^24.0.11",
