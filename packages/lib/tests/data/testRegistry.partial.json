@@ -7,7 +7,7 @@
 		"targets": [
 			{
 				"assemblyVersion": "1.0.0.0",
-				"framework": "netcoreapp2.1"
+				"framework": "netcoreapp3.1"
 			}
 		]
 	}
