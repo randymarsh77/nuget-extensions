@@ -4,8 +4,8 @@ branches:
 
 max_jobs: 1
 
-environment:
-  nodejs_version: '13'
+install:
+  - ps: Install-Product node 13
 
 test_script:
   - node --version
