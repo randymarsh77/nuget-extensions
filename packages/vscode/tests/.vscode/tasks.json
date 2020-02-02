@@ -2,36 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "build",
+			"label": "Build TestConsoleApp",
+			"group": "build",
 			"command": "dotnet",
 			"type": "process",
 			"args": [
 				"build",
-				"${workspaceFolder}/projects/TestConsoleApp/TestConsoleApp/TestConsoleApp.csproj",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
-			],
-			"problemMatcher": "$msCompile"
-		},
-		{
-			"label": "publish",
-			"command": "dotnet",
-			"type": "process",
-			"args": [
-				"publish",
-				"${workspaceFolder}/projects/TestConsoleApp/TestConsoleApp/TestConsoleApp.csproj",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
-			],
-			"problemMatcher": "$msCompile"
-		},
-		{
-			"label": "watch",
-			"command": "dotnet",
-			"type": "process",
-			"args": [
-				"watch",
-				"run",
 				"${workspaceFolder}/projects/TestConsoleApp/TestConsoleApp/TestConsoleApp.csproj",
 				"/property:GenerateFullPaths=true",
 				"/consoleloggerparameters:NoSummary"
@@ -49,12 +25,9 @@
 				"command": "bash",
 				"args": [
 					"build.sh",
-					"--target",
-					"NuGetPackage",
-					"--configuration",
-					"Debug",
-					"--versionSuffix",
-					"debug"
+					"--target=NuGetPackage",
+					"--configuration=Debug",
+					"--versionSuffix=debug"
 				]
 			},
 			"windows": {
