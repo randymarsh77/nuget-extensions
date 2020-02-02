@@ -21,8 +21,8 @@ export function link(
 	const logger = options.logger;
 	const log = (x: string) => logger && logger.log(x);
 	const logError = (x: string) => logger && logger.error(x);
-	const packages = installPackages(options);
 	const links = destinations.reduce((links, destination) => {
+		const packages = installPackages({ ...options, workingDirectory: path.dirname(destination) });
 		let newLinks = links;
 		if (destination.endsWith('.csproj')) {
 			log(`Updating:  ${destination}`);
