@@ -81,7 +81,7 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
-		"nuget-extensions-lib": "^0.0.8"
+		"nuget-extensions-lib": "^0.0.10"
 	},
 	"devDependencies": {
 		"tslint": "^5.14.0",
