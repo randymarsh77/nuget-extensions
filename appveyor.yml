@@ -1,0 +1,15 @@
+branches:
+  only:
+    - master
+
+max_jobs: 1
+
+environment:
+  nodejs_version: '13'
+
+test_script:
+  - node --version
+  - npm --version
+  - node build-travis.js
+
+build: off
