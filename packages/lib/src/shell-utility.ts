@@ -10,8 +10,10 @@ export type ExecToolFunction = (
 
 export function requireTool(name: string): ExecToolFunction {
 	const toolPath = resolveToolPath(name);
-	return (args: string, options?: shell.ExecOptions & { async?: false }) =>
-		shell.exec(`${toolPath} ${args}`, options || {});
+	return (args: string, options?: shell.ExecOptions & { async?: false }) => {
+		shell.config.execPath = shell.which('node').toString();
+		return shell.exec(`${toolPath} ${args}`, options || {});
+	};
 }
 
 function resolveToolPath(name: string) {

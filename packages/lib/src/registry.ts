@@ -92,6 +92,7 @@ export function registerPackages(
 				'NuGetPackageInfo.dll'
 			);
 			const packagePath = path.join(directory, v);
+			shell.config.execPath = shell.which('node').toString();
 			const data = shell.exec(`dotnet ${packageInfoAppPath} ${packagePath}`);
 			const { targets } = JSON.parse(data) as INuGetPackageInfo;
 
