@@ -6,9 +6,9 @@ const packages = ['packages/lib', 'packages/cli', 'packages/vscode'];
 
 packages.reduce((_, package) => {
 	const execYarn = args => {
+		shell.config.execPath = shell.which('node').toString();
 		const { code } = shell.exec(`yarn ${args.join(' ')}`, {
 			cwd: path.join(process.cwd(), package),
-			stdio: [process.stdin, process.stdout, process.stderr],
 		});
 		if (code !== 0) {
 			console.error('Failing build due to last error.');
@@ -32,7 +32,7 @@ packages.reduce((_, package) => {
 	}
 
 	// The current travis.yml doesn't support launching VSCode windows for integration tests.
-	if (package !== 'packages/vscode') {
+	if (package === 'packages/lib') {
 		execYarn(['test', '--coverage']);
 	}
 	return _;

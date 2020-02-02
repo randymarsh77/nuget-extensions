@@ -4,6 +4,7 @@ const shell = require('shelljs');
 const solutionDirectory = path.join(__dirname, 'tests', 'data', 'TestData');
 const outputDirectory = path.join(__dirname, 'tests', 'data', 'packages');
 
+shell.config.execPath = shell.which('node').toString();
 shell.exec(
 	`dotnet pack ${path.join(
 		solutionDirectory,

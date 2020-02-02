@@ -3,6 +3,7 @@ const shell = require('shelljs');
 
 const projectDirectory = path.join('..', '..', 'tools', 'NuGetPackageInfo', 'NuGetPackageInfo');
 
+shell.config.execPath = shell.which('node').toString();
 shell.exec(`dotnet build ${path.join(projectDirectory, 'NuGetPackageInfo.csproj')} -c Release`, {
 	stdio: [process.stdin, process.stdout, process.stderr],
 });
