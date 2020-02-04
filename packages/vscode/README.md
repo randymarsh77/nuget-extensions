@@ -10,6 +10,12 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ## Changelog
 
+### 0.0.13
+
+- Added crash logging and telemetry in order to improve the software. This telemetry can be disabled using VSCode's global telemetry setting. Information collected is:
+  - Version numbers of NuGet, dotnet, node
+  - Which commands are executed
+
 ### 0.0.12
 
 - Fixes for macOS Catalina and NuGet v5.x
