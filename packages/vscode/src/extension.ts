@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import TelemetryReporter from 'vscode-extension-telemetry';
-import { readRegistry, ILogger } from 'nuget-extensions-lib';
+import { readRegistry, ILogger, getEnvironmentSnapshot, IReporter } from 'nuget-extensions-lib';
 import { startWatchTask, stopWatchTask } from './commands/watch';
 import { executeRegisterCommand } from './commands/register';
 import { executeUnregisterCommand } from './commands/unregister';
@@ -11,26 +11,29 @@ const telemetryId = 'nuget-extensions-vscode';
 const telemetryAppVersion = '0.0.13';
 const telemetryKey = '';
 
-interface IReporter {
-	sendTelemetryException: (e: Error) => void;
-	dispose: () => void;
-}
-
 const fakeReporter: IReporter = {
+	sendTelemetryEvent: () => {},
 	sendTelemetryException: () => {},
-	dispose: () => {},
+	dispose: async () => {},
 };
 
-const reportException = async (
+const wrap = async (
 	func: (logger: ILogger) => Promise<void>,
-	logger: ILogger,
-	reporter: IReporter
+	{ logger, reporter, event }: { logger: ILogger; reporter: IReporter; event?: string }
 ) => {
 	try {
+		if (event) {
+			reporter.sendTelemetryEvent(event);
+		}
 		await func(logger);
 	} catch (e) {
 		reporter.sendTelemetryException(e);
 	}
+};
+
+const logEnvironment = async (reporter: IReporter) => {
+	const env = getEnvironmentSnapshot();
+	reporter.sendTelemetryEvent('activate', env);
 };
 
 let dispose = () => {};
@@ -49,44 +52,55 @@ export function activate(context: vscode.ExtensionContext) {
 		reporter.dispose();
 	};
 
+	setTimeout(() => logEnvironment(reporter), 0);
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('extension.nugex.register', async () => {
-			reportException(executeRegisterCommand, logger, reporter);
+			wrap(executeRegisterCommand, { logger, reporter, event: 'register' });
 		}),
 		vscode.commands.registerCommand('extension.nugex.unregister', async () => {
-			reportException(executeUnregisterCommand, logger, reporter);
+			wrap(executeUnregisterCommand, { logger, reporter, event: 'unregister' });
 		}),
 		vscode.commands.registerCommand('extension.nugex.link', async () => {
-			reportException(executeLinkCommand, logger, reporter);
+			wrap(executeLinkCommand, { logger, reporter, event: 'link' });
 		}),
 		vscode.commands.registerCommand('extension.nugex.unlink', async () => {
-			reportException(executeUnlinkCommand, logger, reporter);
+			wrap(executeUnlinkCommand, { logger, reporter, event: 'unlink' });
 		}),
 		vscode.commands.registerCommand('extension.nugex.list', async () => {
-			reportException(
+			wrap(
 				async () => {
 					vscode.window.showInformationMessage(JSON.stringify(readRegistry(), null, 2));
 				},
-				logger,
-				reporter
+				{
+					logger,
+					reporter,
+					event: 'list',
+				}
 			);
 		}),
 		vscode.commands.registerCommand('extension.nugex.startWatchTask', async () => {
-			reportException(
+			wrap(
 				async () => {
 					startWatchTask(context);
 				},
-				logger,
-				reporter
+				{
+					logger,
+					reporter,
+					event: 'startWatch',
+				}
 			);
 		}),
 		vscode.commands.registerCommand('extension.nugex.stopWatchTask', async () => {
-			reportException(
+			wrap(
 				async () => {
 					stopWatchTask(context);
 				},
-				logger,
-				reporter
+				{
+					logger,
+					reporter,
+					event: 'stopWatch',
+				}
 			);
 		}),
 		reporter
