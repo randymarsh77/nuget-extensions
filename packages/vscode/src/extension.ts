@@ -21,19 +21,31 @@ const wrap = async (
 	func: (logger: ILogger) => Promise<void>,
 	{ logger, reporter, event }: { logger: ILogger; reporter: IReporter; event?: string }
 ) => {
+	const env = getEnvironment(reporter);
+	if (!env) {
+		return;
+	}
+
 	try {
 		if (event) {
-			reporter.sendTelemetryEvent(event);
+			reporter.sendTelemetryEvent(event, env);
 		}
 		await func(logger);
 	} catch (e) {
-		reporter.sendTelemetryException(e);
+		reporter.sendTelemetryException(e, env);
 	}
 };
 
-const logEnvironment = async (reporter: IReporter) => {
-	const env = getEnvironmentSnapshot();
-	reporter.sendTelemetryEvent('activate', env);
+const getEnvironment = (reporter: IReporter) => {
+	try {
+		return getEnvironmentSnapshot();
+	} catch (e) {
+		reporter.sendTelemetryException(e);
+		vscode.window.showErrorMessage(
+			`It looks like you don't have some of the required tools installed. You need dotnet and nuget in your path. ${e}`
+		);
+		return null;
+	}
 };
 
 let dispose = () => {};
@@ -51,8 +63,6 @@ export function activate(context: vscode.ExtensionContext) {
 	dispose = () => {
 		reporter.dispose();
 	};
-
-	setTimeout(() => logEnvironment(reporter), 0);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('extension.nugex.register', async () => {

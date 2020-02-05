@@ -10,6 +10,10 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ## Changelog
 
+### vNext
+
+- Show an error dialog when tools are missing instead of crashing.
+
 ### 0.0.13
 
 - Added crash logging and telemetry in order to improve the software. This telemetry can be disabled using VSCode's global telemetry setting. Information collected is:
