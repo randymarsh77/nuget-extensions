@@ -1,8 +1,9 @@
 node_modules
 yarn-error.log
+out
+
 **/.vs
 **/bin
 **/obj
-**/out/**/*
-**/coverage/**/*
+**/coverage
 packages/lib/tests/data/packages

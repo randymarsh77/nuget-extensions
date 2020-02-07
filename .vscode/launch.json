@@ -14,7 +14,8 @@
 				"${workspaceFolder}/packages/vscode/tests",
 				"--extensionDevelopmentPath=${workspaceFolder}/packages/vscode"
 			],
-			"outFiles": ["${workspaceFolder}/packages/vscode/out/*.js"]
+			"outFiles": ["${workspaceFolder}/packages/vscode/out/*.js"],
+			"sourceMaps": true
 		},
 		{
 			"name": "VSCode Extension Tests",

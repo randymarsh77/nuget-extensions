@@ -13,6 +13,7 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 ### vNext
 
 - Show an error dialog when tools are missing instead of crashing.
+- Optimize and minimze distributed files for a smaller install and better performance.
 
 ### 0.0.13
 

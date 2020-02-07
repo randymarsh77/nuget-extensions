@@ -73,11 +73,12 @@
 	"scripts": {
 		"clean": "rimraf out",
 		"lint": "tslint -p ./",
-		"compile": "tsc -p ./",
-		"build": "yarn clean && yarn lint && yarn compile",
-		"vscode:prepublish": "yarn build",
+		"prebuild": "yarn clean && yarn lint",
+		"build": "webpack",
+		"vscode:prepublish": "cross-env WEBPACK_MODE=production yarn build",
 		"postinstall": "node ../../node_modules/vscode/bin/install",
-		"test": "yarn build && node ../../node_modules/vscode/bin/test",
+		"test-compile": "tsc -p ./",
+		"test": "yarn prebuild && yarn test-compile && node ./node_modules/vscode/bin/test",
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
@@ -85,8 +86,13 @@
 		"vscode-extension-telemetry": "^0.1.2"
 	},
 	"devDependencies": {
+		"copy-webpack-plugin": "^5.1.1",
+		"cross-env": "^7.0.0",
+		"ts-loader": "^6.2.1",
 		"tslint": "^5.14.0",
 		"typescript": "^3.3.3333",
-		"vscode": "^1.1.30"
+		"vscode": "^1.1.36",
+		"webpack": "^4.41.5",
+		"webpack-cli": "^3.3.10"
 	}
 }
