@@ -11,6 +11,8 @@ const versionChangeRegEx = new RegExp(
 	'gm'
 );
 
+const pathToPackage = pkg => path.join(__dirname, '..', '..', 'packages', pkg);
+
 function isValidMessage(message) {
 	return validPrefixes.reduce((acc, v) => acc || !!versionChangeRegEx.exec(message), false);
 }
@@ -29,7 +31,7 @@ function getChanges(message) {
 		.flatMap(x => {
 			const [_, scope, change] = x;
 			if (scope !== 'all') {
-				return x;
+				return [x];
 			}
 
 			return [...packages.map(p => [_, p, change])];
@@ -59,21 +61,23 @@ function writeNewVersion(pkg, change) {
 	const bumpMajor = change === 'major';
 	const bumpMinor = change === 'minor';
 	const bumpPatch = change === 'patch';
-	const packagePath = path.join('..', 'packages', pkg, 'package.json');
+	const packagePath = path.join(pathToPackage(pkg), 'package.json');
 	const packageData = require(packagePath);
-	const [major, minor, patch] = packageData.version.split('.').map(parseInt);
-	const updated = `${major + (bumpMajor ? 1 : 0)}.${bumpMajor ? 0 : minor + bumpMinor ? 1 : 0}.${
+	const [major, minor, patch] = packageData.version.split('.').map(x => parseInt(x));
+	const updated = `${major + (bumpMajor ? 1 : 0)}.${bumpMajor ? 0 : minor + (bumpMinor ? 1 : 0)}.${
 		bumpPatch ? patch + 1 : 0
 	}`;
 	packageData.version = updated;
-	fs.writeFileSync(packagePath, packageData);
+	fs.writeFileSync(packagePath, JSON.stringify(packageData, null, '	'));
 	return pkg;
 }
 
 (async () => {
 	const messages = await getCommitsAffectingNewVersions();
 	const changes = getChanges(messages.join('\n'));
-	const needsPublishing = new Set(Object.keys(changes).map(pkg => writeNewVersion(pkg, changes)));
+	const needsPublishing = new Set(
+		Object.keys(changes).map(pkg => writeNewVersion(pkg, changes[pkg]))
+	);
 	const publishLib = needsPublishing.has('lib');
 	const publishWithLerna = publishLib || needsPublishing.has('cli');
 
@@ -83,7 +87,7 @@ function writeNewVersion(pkg, change) {
 
 	if (publishLib) {
 		shell.exec('yarn remove nuget-extentions-lib && yarn add nuget-extensions-lib', {
-			cwd: path.join('packages', 'vscode'),
+			cwd: pathToPackage('vscode'),
 		});
 		if (!needsPublishing.has('vscode')) {
 			writeNewVersion('vscode', 'patch');
@@ -91,9 +95,10 @@ function writeNewVersion(pkg, change) {
 	}
 
 	if (publishLib || needsPublishing.has('vscode')) {
-		// TODO - Finish - Doh!
-		// shell.exec('npx vsce --publish', {
-		// 	cwd: path.join('packages', 'vscode'),
-		// });
+		const vscode = {
+			cwd: pathToPackage('vscode'),
+		};
+		shell.exec('npx vsce package --yarn', vscode);
+		shell.exec(`npx vsce publish -p ${process.env.VSCE_TOKEN} --yarn`, vscode);
 	}
 })();

@@ -6,7 +6,8 @@
 		"packages/cli"
 	],
 	"scripts": {
-		"test": "node build-ci.js"
+		"test": "node build-ci.js",
+		"deploy": "node ./tools/release/deploy.js"
 	},
 	"devDependencies": {
 		"@types/jest": "^24.0.11",

@@ -12,3 +12,4 @@ before_install:
 after_success:
   - npm i -g codecov
   - node upload-coverage.js
+  - test $TRAVIS_BRANCH = "release" && yarn deploy
