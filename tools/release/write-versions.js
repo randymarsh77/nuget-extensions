@@ -91,7 +91,7 @@ function writeNewVersion(pkg, change) {
 	}
 
 	if (publishLib || needsPublishing.has('vscode')) {
-		// TODO - Finish
+		// TODO - Finish - Doh!
 		// shell.exec('npx vsce --publish', {
 		// 	cwd: path.join('packages', 'vscode'),
 		// });
