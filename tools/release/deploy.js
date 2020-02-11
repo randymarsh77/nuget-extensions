@@ -46,7 +46,9 @@ function getChanges(message) {
 }
 
 async function getCommitsAffectingNewVersions() {
-	const gh = new GitHub();
+	const gh = new GitHub({
+		token: process.env.GH_TOKEN,
+	});
 	const repo = gh.getRepo('randymarsh77', 'nuget-extensions');
 	const tags = await repo.listTags();
 	const lastReleaseSha = tags.data[0].commit.sha;
