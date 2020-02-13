@@ -6,10 +6,10 @@ import { executeRegisterCommand } from './commands/register';
 import { executeUnregisterCommand } from './commands/unregister';
 import { executeLinkCommand } from './commands/link';
 import { executeUnlinkCommand } from './commands/unlink';
+import { telemetryKey } from './keys';
 
 const telemetryId = 'nuget-extensions-vscode';
 const telemetryAppVersion = '0.0.13';
-const telemetryKey = '';
 
 const fakeReporter: IReporter = {
 	sendTelemetryEvent: () => {},

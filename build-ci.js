@@ -21,6 +21,9 @@ packages.reduce((_, package) => {
 
 	if (package === 'packages/vscode') {
 		execYarn(['link', 'nuget-extensions-lib']);
+		if (process.env.TRAVIS_BRANCH === 'release') {
+			execYarn(['predeploy']);
+		}
 	}
 
 	execYarn(['build']);
