@@ -9,7 +9,7 @@ import { executeUnlinkCommand } from './commands/unlink';
 import { telemetryKey } from './keys';
 
 const telemetryId = 'nuget-extensions-vscode';
-const telemetryAppVersion = '0.0.13';
+const telemetryAppVersion = '0.1.0';
 
 const fakeReporter: IReporter = {
 	sendTelemetryEvent: () => {},
