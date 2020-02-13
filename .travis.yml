@@ -10,6 +10,6 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 
 after_success:
-  - npm i -g codecov
-  - node upload-coverage.js
+  - test $TRAVIS_BRANCH = "master" && npm i -g codecov
+  - test $TRAVIS_BRANCH = "master" && node upload-coverage.js
   - test $TRAVIS_BRANCH = "release" && yarn deploy
