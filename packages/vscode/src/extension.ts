@@ -1,3 +1,4 @@
+import { join } from 'path';
 import * as vscode from 'vscode';
 import TelemetryReporter from 'vscode-extension-telemetry';
 import { readRegistry, ILogger, getEnvironmentSnapshot, IReporter } from 'nuget-extensions-lib';
@@ -6,10 +7,7 @@ import { executeRegisterCommand } from './commands/register';
 import { executeUnregisterCommand } from './commands/unregister';
 import { executeLinkCommand } from './commands/link';
 import { executeUnlinkCommand } from './commands/unlink';
-import { telemetryKey } from './keys';
-
-const telemetryId = 'nuget-extensions-vscode';
-const telemetryAppVersion = '0.1.0';
+import { telemetryId, telemetryKey, telemetryAppVersion } from './telemetry';
 
 const fakeReporter: IReporter = {
 	sendTelemetryEvent: () => {},
