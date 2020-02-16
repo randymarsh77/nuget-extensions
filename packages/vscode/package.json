@@ -3,7 +3,7 @@
 	"name": "nuget-extensions-vscode",
 	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
-	"description": "NPM Link for the C# ecosystem.",
+	"description": "NPM link for NuGet packages.",
 	"version": "0.1.1",
 	"license": "MIT",
 	"icon": "images/icon.png",
