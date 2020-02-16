@@ -12,6 +12,9 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ### vNext
 
+
+### 0.1.1
+
 - Fix crash reporting.
 
 ### 0.1.0
