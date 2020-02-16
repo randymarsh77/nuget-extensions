@@ -3,9 +3,10 @@
 	"name": "nuget-extensions-vscode",
 	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
-	"description": "An extension to help leverage the nuget-extensions CLI in your Code workspace.",
+	"description": "NPM Link for the C# ecosystem.",
 	"version": "0.1.1",
 	"license": "MIT",
+	"icon": "images/icon.png",
 	"bugs": {
 		"url": "https://github.com/randymarsh77/nuget-extensions/issues"
 	},

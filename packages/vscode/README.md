@@ -12,6 +12,8 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ### vNext
 
+- Add an extension icon.
+- Update the extension description to be more useful.
 
 ### 0.1.1
 
