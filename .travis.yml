@@ -12,4 +12,3 @@ before_install:
 after_success:
   - test $TRAVIS_BRANCH = "master" && npm i -g codecov
   - test $TRAVIS_BRANCH = "master" && node upload-coverage.js
-  - test $TRAVIS_BRANCH = "release" && yarn deploy
