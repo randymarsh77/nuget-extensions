@@ -30,6 +30,7 @@ const wrap = async (
 		}
 		await func(logger);
 	} catch (e) {
+		logger.error(e.message);
 		reporter.sendTelemetryException(e, env);
 	}
 };
