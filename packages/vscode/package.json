@@ -4,7 +4,7 @@
 	"publisher": "randymarsh77",
 	"displayName": "NuGet Extensions",
 	"description": "NPM link for NuGet packages.",
-	"version": "0.1.2",
+	"version": "0.0.0-managed-by-semantic-release",
 	"license": "MIT",
 	"icon": "images/icon.png",
 	"bugs": {
@@ -78,6 +78,7 @@
 		"build": "webpack",
 		"update-telemetry": "node ./tools/update-telemetry.js",
 		"update-readme": "node ./tools/update-readme.js",
+		"release": "semantic-release",
 		"vscode:prepublish": "yarn update-telemetry && yarn update-readme && yarn cross-env WEBPACK_MODE=production yarn build",
 		"postinstall": "node ../../node_modules/vscode/bin/install",
 		"test-compile": "tsc -p ./",
@@ -89,8 +90,11 @@
 		"vscode-extension-telemetry": "^0.1.2"
 	},
 	"devDependencies": {
+		"@semantic-release/github": "^7.0.3",
 		"copy-webpack-plugin": "^5.1.1",
 		"cross-env": "^7.0.0",
+		"filtered-commit-analyzer": "^0.0.1",
+		"semantic-release": "^17.0.4",
 		"ts-loader": "^6.2.1",
 		"tslint": "^5.14.0",
 		"typescript": "^3.3.3333",
