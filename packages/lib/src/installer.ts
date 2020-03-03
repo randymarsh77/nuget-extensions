@@ -85,7 +85,7 @@ export function installPackages({
 		log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
 		execNuget(
 			`sources ${operation} -Name ${sourceKey} -Source ${directory}${
-				configLocation ? ` -ConfigFile ${configLocation}` : ''
+				(!keyExists && configLocation) ? ` -ConfigFile ${configLocation}` : ''
 			}`,
 			{
 				cwd: workingDirectory,
