@@ -39,12 +39,24 @@ namespace NuGetPackageInfo
 				?? throw new FormatException("No lib directory");
 
 			var targets = Directory.EnumerateDirectories(lib)
-				.Select(x =>
+				.Select(framework =>
 				{
+					var dlls = Directory.EnumerateFiles(framework)
+						.Where(x => x.EndsWith(".dll"))
+						.Select(GetLastPathComponent)
+						.ToList();
+					var dll = dlls.Count == 1
+						? dlls.First()
+						: (dlls.FirstOrDefault(x => x == $"{nuspec}.dll")
+							?? throw new FormatException("Unable to determine main dll"));
+					return (framework, dll);
+				}).Select(x =>
+				{
+					var (framework, dll) = x;
 					return new InfoDto.Target
 					{
-						Framework = x.Reverse().Substring(0, x.Reverse().IndexOf(Path.DirectorySeparatorChar)).Reverse(),
-						AssemblyVersion = ReadAssemblyVersion(Path.Combine(x, $"{nuspec}.dll")),
+						Framework = GetLastPathComponent(framework),
+						AssemblyVersion = ReadAssemblyVersion(Path.Combine(framework, dll)),
 					};
 				}).ToList();
 
@@ -67,6 +79,9 @@ namespace NuGetPackageInfo
 			var info = FileVersionInfo.GetVersionInfo(dllPath);
 			return info.FileVersion;
 		}
+
+		private static string GetLastPathComponent(string path) =>
+			path.Reverse().Substring(0, path.Reverse().IndexOf(Path.DirectorySeparatorChar)).Reverse();
 
 		private sealed class InfoDto
 		{
