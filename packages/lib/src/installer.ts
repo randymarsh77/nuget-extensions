@@ -85,7 +85,7 @@ export function installPackages({
 		log(`${keyExists ? 'Updating' : 'Adding'} package source for ${directory}`);
 		execNuget(
 			`sources ${operation} -Name ${sourceKey} -Source ${directory}${
-				(!keyExists && configLocation) ? ` -ConfigFile ${configLocation}` : ''
+				!keyExists && configLocation ? ` -ConfigFile ${configLocation}` : ''
 			}`,
 			{
 				cwd: workingDirectory,
@@ -126,12 +126,16 @@ function resolveConfigData(execNuget: ExecToolFunction, fromDirectory: string) {
 	let foundConfigDirectory = false;
 	let keepSearching = true;
 	let currentDirectory = fromDirectory;
+	const isAbsolute = fromDirectory.startsWith(path.sep);
 	while (!foundConfigDirectory && keepSearching) {
 		foundConfigDirectory = fs.existsSync(path.join(currentDirectory, 'nuget.config'));
 		if (!foundConfigDirectory) {
 			const parts = currentDirectory.split(path.sep);
 			if (parts.length > 1) {
-				currentDirectory = path.join(...parts.slice(0, parts.length - 1));
+				currentDirectory = path.join(
+					isAbsolute ? path.sep : '',
+					...parts.slice(0, parts.length - 1)
+				);
 			} else {
 				keepSearching = false;
 			}
