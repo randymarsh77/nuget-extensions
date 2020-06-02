@@ -1,6 +1,6 @@
 {
 	"name": "nuget-extensions",
-	"version": "0.0.11",
+	"version": "0.0.0-managed-by-semantic-release",
 	"description": "Extensions for the NuGet CLI",
 	"main": "index.js",
 	"bin": {
@@ -30,6 +30,8 @@
 		"yargs": "^13.2.1"
 	},
 	"devDependencies": {
-		"jest-cli": "^24.5.0"
+		"filtered-commit-analyzer": "^0.0.1",
+		"jest-cli": "^24.5.0",
+		"semantic-release": "^17.0.8"
 	}
 }
