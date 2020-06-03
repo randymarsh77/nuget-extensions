@@ -38,7 +38,10 @@ packages.reduce((_, package) => {
 		execYarn(['test', '--coverage']);
 	}
 
-	execYarn(['semantic-release']);
+	// Only release from Travis, not Appveyor.
+	if (process.env.TRAVIS) {
+		execYarn(['semantic-release']);
+	}
 
 	return _;
 }, {});
