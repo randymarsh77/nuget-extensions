@@ -31,7 +31,7 @@ export function watch(options: {
 	logger?: ILogger;
 }): fs.FSWatcher[] {
 	const registry = readRegistry();
-	const directories = Object.keys(registry).reduce((acc, pkg) => {
+	const directories = Object.keys(registry).reduce<Set<string>>((acc, pkg) => {
 		const { directory } = registry[pkg];
 		return acc.add(directory);
 	}, new Set());
@@ -39,7 +39,7 @@ export function watch(options: {
 	const logger = options.logger;
 	const log = (x: string) => logger && logger.log(x);
 
-	const watchers = [...directories].reduce((acc, v) => {
+	const watchers = [...directories].reduce<fs.FSWatcher[]>((acc, v) => {
 		log(`Watching for changes in: ${v}`);
 		return [
 			...acc,
