@@ -10,6 +10,7 @@
 		"test": "node build-ci.js"
 	},
 	"devDependencies": {
+		"@semantic-release/npm": "^7.0.5",
 		"@types/jest": "^24.0.11",
 		"@types/lodash.debounce": "^4.0.5",
 		"@types/lodash.mergewith": "^4.6.6",

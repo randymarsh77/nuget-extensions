@@ -199,7 +199,7 @@
     p-retry "^4.0.0"
     url-join "^4.0.0"
 
-"@semantic-release/npm@^7.0.0":
+"@semantic-release/npm@^7.0.0", "@semantic-release/npm@^7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@semantic-release/npm/-/npm-7.0.5.tgz#61c45691abb863f6939cca6aac958d3c22508632"
   integrity sha512-D+oEmsx9aHE1q806NFQwSC9KdBO8ri/VO99eEz0wWbX2jyLqVyWr7t0IjKC8aSnkkQswg/4KN/ZjfF6iz1XOpw==
@@ -4710,7 +4710,7 @@ nuget-extensions-lib@^0.0.11:
   version "0.0.0-managed-by-semantic-release"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-d1fe7e1e-4ef7-4c99-a61c-16c00eeed2c2-1591166461774/node_modules/lib"
+    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-b3b37faa-6007-4548-bfb2-dfa640a8af4b-1591167538756/node_modules/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
