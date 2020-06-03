@@ -86,7 +86,7 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"dependencies": {
-		"nuget-extensions-lib": "^0.0.11",
+		"nuget-extensions-lib": "^0.0.14",
 		"vscode-extension-telemetry": "^0.1.2"
 	},
 	"devDependencies": {

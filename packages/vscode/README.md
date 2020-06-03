@@ -12,6 +12,9 @@ The extension farms out to both `nuget` and `dotnet`, so they must be in your pa
 
 ### vNext
 
+- Fixed an issue with locating nuget.config files in parent directories.
+- Fixed an issue with packages that have different names than the main dll.
+
 ### 0.1.2
 
 - Add an extension icon.

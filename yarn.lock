@@ -4686,10 +4686,10 @@ npmlog@^4.1.2, npmlog@~4.1.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
-nuget-extensions-lib@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/nuget-extensions-lib/-/nuget-extensions-lib-0.0.11.tgz#a099830e6ece16b7d66f0c08af96c019c3e6ec8b"
-  integrity sha512-63/ebzNgBDqh2cDTuG5FelDMAgwU8reviyCWq1LdpVrTXTLk6qe4bG6WBXjO3jo4cp5KvhN+yoL1AqobNU68Qw==
+nuget-extensions-lib@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/nuget-extensions-lib/-/nuget-extensions-lib-0.0.14.tgz#cf40b6c55093661c101bb8e6feb1e5763a0c36b9"
+  integrity sha512-kh0MPmzTnBBDWYS/M2hCGTdkUzEIQLGSJIEF70LXKq9squFPUXVWl7FLBFG2Kt+ASoGn+hSMDnVf60iLjOhetw==
   dependencies:
     lodash.debounce "^4.0.8"
     lodash.mergewith "^4.6.1"
@@ -4710,7 +4710,7 @@ nuget-extensions-lib@^0.0.11:
   version "0.0.0-managed-by-semantic-release"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-b3b37faa-6007-4548-bfb2-dfa640a8af4b-1591167538756/node_modules/lib"
+    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-1a84e759-bd66-4eaf-a85b-6e3a87c09f7e-1591197391805/node_modules/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
