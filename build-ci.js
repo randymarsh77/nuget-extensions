@@ -17,14 +17,7 @@ const packages = ['nuget-extensions-lib', 'nuget-extensions', 'nuget-extensions-
 createExecYarn()();
 
 packages.reduce((_, package) => {
-	const execYarn = args => {
-		shell.config.execPath = shell.which('node').toString();
-		const { code } = shell.exec(`yarn workspace ${package} ${args.join(' ')}`);
-		if (code !== 0) {
-			console.error('Failing build due to last error.');
-			process.exit(1);
-		}
-	};
+	const execYarn = createExecYarn(package);
 
 	console.log(`\nBuilding ${package}\n`);
 
