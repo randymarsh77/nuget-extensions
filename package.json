@@ -3,7 +3,8 @@
 	"name": "nuget-extensions-packages",
 	"workspaces": [
 		"packages/lib",
-		"packages/cli"
+		"packages/cli",
+		"packages/vscode"
 	],
 	"scripts": {
 		"test": "node build-ci.js"
@@ -19,7 +20,6 @@
 		"@types/user-home": "^2.0.0",
 		"@types/yargs": "^12.0.9",
 		"github-api": "^3.3.0",
-		"lerna": "^3.13.1",
 		"prettier": "^1.16.4",
 		"shelljs": "^0.8.3",
 		"tslint": "^5.12.1",
