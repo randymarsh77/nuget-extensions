@@ -36,8 +36,7 @@ packages.reduce((_, package) => {
 		execYarn(['test', '--coverage']);
 	}
 
-	if (package === 'packages/vscode') {
-		execYarn(['semantic-release']);
-	}
+	execYarn(['semantic-release']);
+
 	return _;
 }, {});
