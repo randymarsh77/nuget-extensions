@@ -5,7 +5,6 @@
 [![Appveyor - Windows](https://img.shields.io/appveyor/ci/randymarsh77/nuget-extensions?label=Windows)](https://ci.appveyor.com/project/randymarsh/nuget-extensions)
 [![codebeat badge](https://codebeat.co/badges/c16bbce0-4382-4e9f-b4ee-b2b8a7a38ac0)](https://codebeat.co/projects/github-com-randymarsh77-nuget-extensions)
 [![coverage](https://img.shields.io/codecov/c/github/randymarsh77/nuget-extensions.svg)](https://codecov.io/gh/randymarsh77/nuget-extensions)
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
 This is a monorepo for NuGet Extensions and contains the following packages:
 
