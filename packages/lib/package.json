@@ -1,6 +1,6 @@
 {
 	"name": "nuget-extensions-lib",
-	"version": "0.0.11",
+	"version": "0.0.0-managed-by-semantic-release",
 	"description": "The library that supports the nuget-extensions CLI and VSCode extension.",
 	"author": "Matt Preucil <mattpsbs@gmail.com>",
 	"license": "MIT",
@@ -38,8 +38,10 @@
 		"@types/shelljs": "^0.8.5",
 		"@types/uuid": "^3.4.4",
 		"babel-jest": "^24.5.0",
+		"filtered-commit-analyzer": "^0.0.1",
 		"jest": "^24.5.0",
-		"jest-cli": "^25.1.0",
+		"jest-cli": "^26.0.1",
+		"semantic-release": "^17.0.8",
 		"ts-jest": "^24.0.0",
 		"uuid": "^3.3.2"
 	}
