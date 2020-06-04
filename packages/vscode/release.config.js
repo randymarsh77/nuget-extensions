@@ -17,6 +17,7 @@ module.exports = {
 				npmPublish: false,
 			},
 		],
+		['./tools/publish.js', {}],
 		[
 			'@semantic-release/github',
 			{
