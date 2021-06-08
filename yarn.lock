@@ -4710,7 +4710,7 @@ nuget-extensions-lib@^0.0.14:
   version "0.0.0-managed-by-semantic-release"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-1a84e759-bd66-4eaf-a85b-6e3a87c09f7e-1591197391805/node_modules/lib"
+    nuget-extensions-lib "file:packages/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
@@ -6533,9 +6533,9 @@ traverse@~0.6.6:
   integrity sha1-y99WD9e5r2MlAv7UD5GMFX6pcTc=
 
 trim-newlines@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.0.tgz#79726304a6a898aa8373427298d54c2ee8b1cb30"
-  integrity sha512-C4+gOpvmxaSMKuEf9Qc134F1ZuOHVXKRbtEflf4NTtuuJDEIJ9p5PXsalL8SkeRw+qit1Mo+yuvMPAKwWg/1hA==
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
+  integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
 trim-off-newlines@^1.0.0:
   version "1.0.1"
