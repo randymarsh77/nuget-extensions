@@ -4703,14 +4703,14 @@ nuget-extensions-lib@^0.0.14:
     lodash.debounce "^4.0.8"
     lodash.mergewith "^4.6.1"
     rimraf "^2.6.3"
-    shelljs "^0.8.3"
+    shelljs "^0.8.5"
     user-home "^2.0.0"
 
 "nuget-extensions@file:packages/cli":
   version "0.0.0-managed-by-semantic-release"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-1a84e759-bd66-4eaf-a85b-6e3a87c09f7e-1591197391805/node_modules/lib"
+    nuget-extensions-lib "file:packages/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
@@ -5884,10 +5884,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shelljs@^0.8.3:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.4.tgz#de7684feeb767f8716b326078a8a00875890e3c2"
-  integrity sha512-7gk3UZ9kOfPLIAbslLzyWeGiEqx9e3rxwZM0KE6EL8GlGwjym9Mrlx5/p33bWTu9YG6vcS4MBxYZDHYr5lr8BQ==
+shelljs@^0.8.3, shelljs@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
+  integrity sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
