@@ -94,7 +94,7 @@
 		"copy-webpack-plugin": "^5.1.1",
 		"cross-env": "^7.0.0",
 		"filtered-commit-analyzer": "^0.0.1",
-		"semantic-release": "^17.0.4",
+		"semantic-release": "^19.0.3",
 		"ts-loader": "^6.2.1",
 		"tslint": "^5.14.0",
 		"typescript": "^3.3.3333",

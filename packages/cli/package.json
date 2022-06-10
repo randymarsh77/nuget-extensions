@@ -32,6 +32,6 @@
 	"devDependencies": {
 		"filtered-commit-analyzer": "^0.0.1",
 		"jest-cli": "^24.5.0",
-		"semantic-release": "^17.0.8"
+		"semantic-release": "^19.0.3"
 	}
 }
