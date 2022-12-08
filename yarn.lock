@@ -4710,7 +4710,7 @@ nuget-extensions-lib@^0.0.14:
   version "0.0.0-managed-by-semantic-release"
   dependencies:
     lodash.debounce "^4.0.8"
-    nuget-extensions-lib "file:../../.yarn-cache/v4/npm-nuget-extensions-0.0.0-managed-by-semantic-release-1a84e759-bd66-4eaf-a85b-6e3a87c09f7e-1591197391805/node_modules/lib"
+    nuget-extensions-lib "file:packages/lib"
     rimraf "^2.6.3"
     user-home "^2.0.0"
     yargs "^13.2.1"
@@ -5318,9 +5318,9 @@ qrcode-terminal@^0.12.0:
   integrity sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==
 
 qs@~6.5.2:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
-  integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.3.tgz#3aeeffc91967ef6e35c0e488ef46fb296ab76aad"
+  integrity sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==
 
 query-string@^6.8.2:
   version "6.12.1"
