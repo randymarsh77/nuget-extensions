@@ -7,14 +7,15 @@ import {
 	readRegistry,
 	writeRegistry,
 	watch,
+	writeWorkspaceFile,
 } from 'nuget-extensions-lib';
 
-/* tslint:disable:no-console */
+/* eslint-disable no-console */
 const logger = {
 	log: console.log,
 	error: console.error,
 };
-/* tslint:enable:no-console */
+/* eslint-enable no-console */
 
 const _ = yargs
 	.usage('Usage: $0 <command> [options]')
@@ -57,5 +58,29 @@ const _ = yargs
 				shortCircuitBuild: argv['short-circuit-build'],
 				logger,
 			});
+		}
+	)
+	.command(
+		'workspace [name]',
+		'Generate a VSCode workspace file containing all registered package directories for unified development.',
+		command =>
+			command
+				.positional('name', {
+					type: 'string',
+					default: 'nugex-workspace',
+					describe: 'Name for the generated workspace file.',
+				})
+				.option('consumer', {
+					type: 'string',
+					describe:
+						'Path to the consumer project (.csproj or .sln) to include in the workspace.',
+				}),
+		argv => {
+			const workspacePath = writeWorkspaceFile(argv.name as string, {
+				consumerProjectPath: argv.consumer,
+				logger,
+			});
+			logger.log(`Workspace file created: ${workspacePath}`);
+			logger.log('Open it in VSCode to develop all linked packages together.');
 		}
 	).argv;

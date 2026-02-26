@@ -11,7 +11,7 @@
 	],
 	"scripts": {
 		"clean": "rimraf out",
-		"lint": "tslint -p ./",
+		"lint": "eslint 'src/**/*.ts'",
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile",
 		"test": "echo \"Warning: no test specified\" && exit 0"

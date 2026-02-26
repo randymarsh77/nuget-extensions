@@ -1,0 +1,22 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"rules": {
+		"no-throw-literal": "error",
+		"no-unused-expressions": "error",
+		"no-duplicate-imports": "error",
+		"curly": "error",
+		"eqeqeq": ["error", "always"],
+		"no-console": "error",
+		"semi": ["error", "always"]
+	},
+	"env": {
+		"node": true,
+		"es6": true
+	}
+}

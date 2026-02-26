@@ -1,8 +1,7 @@
 # NuGet Extensions
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
-[![Travis - macOS](https://img.shields.io/travis/randymarsh77/nuget-extensions?label=macOS)](https://travis-ci.org/randymarsh77/nuget-extensions)
-[![Appveyor - Windows](https://img.shields.io/appveyor/ci/randymarsh77/nuget-extensions?label=Windows)](https://ci.appveyor.com/project/randymarsh/nuget-extensions)
+[![CI](https://github.com/randymarsh77/nuget-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/randymarsh77/nuget-extensions/actions/workflows/ci.yml)
 [![codebeat badge](https://codebeat.co/badges/c16bbce0-4382-4e9f-b4ee-b2b8a7a38ac0)](https://codebeat.co/projects/github-com-randymarsh77-nuget-extensions)
 [![coverage](https://img.shields.io/codecov/c/github/randymarsh77/nuget-extensions.svg)](https://codecov.io/gh/randymarsh77/nuget-extensions)
 
@@ -27,6 +26,12 @@ This is a monorepo for NuGet Extensions and contains the following packages:
 ### Status
 
 Alpha version, approaching MVP. See [issues](https://github.com/randymarsh77/nuget-extensions/issues) for specifics.
+
+#### Tooling Modernization
+
+- **Linting**: Migrated from deprecated TSLint to ESLint with `@typescript-eslint`.
+- **CI/CD**: Migrated from Travis CI and AppVeyor to GitHub Actions with cross-platform testing (Ubuntu, Windows, macOS).
+- **Workspace Support**: Added dynamic VSCode workspace generation (inspired by [yalcspace](https://github.com/randymarsh77/yalcspace)) to develop multiple linked NuGet packages as a unified workspace.
 
 ### What and Why
 
@@ -57,6 +62,7 @@ The basic idea is:
 Furthermore:
 
 - `Watch` is available to watch for package changes (when you rebuild the dependent package), and will ensure that the latest build is always available to your consumer. If desired, `Watch` can also be configured so that a rebuild of the consumer is not required.
+- `Workspace` generates a VSCode workspace file that includes all registered package directories and the consumer project. This enables developing multiple disparate NuGet packages as a unified workspace with specialized build tasks, inspired by [yalcspace](https://github.com/randymarsh77/yalcspace).
 
 To clean up:
 
