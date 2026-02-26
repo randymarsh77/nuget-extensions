@@ -33,14 +33,9 @@ packages.reduce((_, package) => {
 		execYarn(['link']);
 	}
 
-	// The current travis.yml doesn't support launching VSCode windows for integration tests.
+	// The current CI doesn't support launching VSCode windows for integration tests.
 	if (package === 'nuget-extensions-lib') {
 		execYarn(['test', '--coverage']);
-	}
-
-	// Only release from Travis, not Appveyor.
-	if (process.env.TRAVIS) {
-		execYarn(['semantic-release']);
 	}
 
 	return _;

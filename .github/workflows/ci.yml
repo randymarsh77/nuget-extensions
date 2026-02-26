@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build and Test
+        run: yarn test
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && github.ref == 'refs/heads/master'
+        uses: codecov/codecov-action@v4
+        with:
+          directory: packages/lib/coverage

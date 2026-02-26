@@ -17,7 +17,7 @@
 	],
 	"scripts": {
 		"clean": "rimraf out",
-		"lint": "tslint -p ./",
+		"lint": "eslint 'src/**/*.ts'",
 		"compile": "tsc -p ./",
 		"build": "yarn clean && yarn lint && yarn compile && node embed-binaries.js",
 		"test": "node prepare-test-data.js && yarn jest"
